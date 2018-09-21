@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.5.1)
 
 #define root project
-set(ROOT_PROJECT CodeLab)
+set(ROOT_PROJECT codelab)
 project(${ROOT_PROJECT})
 
 #default build type
@@ -11,13 +11,14 @@ set(CMAKE_BUILD_TYPE Debug)
 
 set(PROJECT_ROOT_DIR "${${ROOT_PROJECT}_SOURCE_DIR}")
 
+set(CPP_VERSION_FLAG "-std=c++14")
 set(WARNING_FLAGS "-Wall -Wextra -Wfloat-equal -Wundef -Wuninitialized")
 set(WARNING_FLAGS "${WARNING_FLAGS} -Wreorder -Wshadow -Wpointer-arith")
 set(WARNING_FLAGS "${WARNING_FLAGS} -Wcast-align -Wcast-qual -Wconversion")
 set(WARNING_FLAGS "${WARNING_FLAGS} -Wunused-parameter")
 
 #set global compiler flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CPP_VERSION_FLAG} ${WARNING_FLAGS}")
 
 #manually add Position Independant Code
 #to compiler flags -> it could decrease the runtime performance
@@ -28,13 +29,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 #that are invoked with add_directory command.
 include_directories(${PROJECT_ROOT_DIR})
 
+file(GLOB _SOURCES
+        "${PROJECT_ROOT_DIR}/*.cpp"
+        "${PROJECT_ROOT_DIR}/arrays/*.cpp")
+
 #### START CHILD PROJECT DEFINES ####
 
-#define utils project
-set(ARRAYS_LIB arrays)
-project(${ARRAYS_LIB})
-
-#reuse project flags and start other cmake files
-add_subdirectory(${PROJECT_ROOT_DIR}/arrays)
-
-add_executable(codeLab main.cpp)
+#generate engine binary
+add_executable(${ROOT_PROJECT} ${_SOURCES})

@@ -19,7 +19,6 @@
 
 int main(int gc, char * argv[])
 {
-    //dummy check to satisfy compiler warnings
     if (gc && argv) {}
 
     NQueens nQueens;

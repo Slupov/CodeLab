@@ -22,10 +22,10 @@
 class Problem
 {
     public:
-        virtual void initData() = 0;
-
         virtual void solve() = 0;
-};
 
+    protected:
+        virtual void initData() = 0;
+};
 
 #endif //PROBLEM_H
