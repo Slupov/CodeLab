@@ -1,8 +1,6 @@
 #ifndef ARRAYS_ARRAYPROBLEM_H
 #define ARRAYS_ARRAYPROBLEM_H
 
-
-
 /**
  *  @brief
  *  @date 19.09.18

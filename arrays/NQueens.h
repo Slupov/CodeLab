@@ -1,8 +1,6 @@
 #ifndef CODELAB_NQUEENS_H
 #define CODELAB_NQUEENS_H
 
-
-
 /**
  *  @brief
  *  @date 20.09.18
@@ -34,7 +32,6 @@ class NQueens : public ArrayProblem
 
         //checks whether a position is safe for a queen to be put
         bool isSafe(const int32_t row, const int32_t col);
-
 
         void setAttackedColumnsDiagonals(const int32_t row, const int32_t col,
                                          const uint8_t value);
