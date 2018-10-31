@@ -1,6 +1,6 @@
 /**
  *  @brief
- *  @date 18.09.18
+ *  @date 31.09.18
  *  @author Stoyan Lupov
  */
 
@@ -9,25 +9,20 @@
 //C system headers
 
 //C++ system headers
-#include <cstdlib>
-#include <iostream>
 
 //Other libraries headers
 
 //Own components headers
-#include "arrays/NQueens.h"
 #include "arrays/ContainerWithMostWater.h"
 
 int main(int gc, char * argv[])
 {
-    if (gc && argv) {}
-
-//    NQueens nQueens;
-//    nQueens.solve();
+    if(gc && argv)
+    {}
 
     ContainerWithMostWater containerWithMostWater;
     containerWithMostWater.solve();
 
-    return EXIT_SUCCESS;
+    return 0;
 }
 

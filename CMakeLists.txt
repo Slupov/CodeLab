@@ -31,9 +31,21 @@ include_directories(${PROJECT_ROOT_DIR})
 
 file(GLOB _SOURCES
         "${PROJECT_ROOT_DIR}/*.cpp"
-        "${PROJECT_ROOT_DIR}/arrays/*.cpp")
+        "${PROJECT_ROOT_DIR}/datagenerator/*.cpp"
+        "${PROJECT_ROOT_DIR}/arrays/*.cpp"
+        "${PROJECT_ROOT_DIR}/engine/*.cpp"
+        )
 
 #### START CHILD PROJECT DEFINES ####
+#define arrays project
+set(ARRAYS_LIB arrays)
+project(${ARRAYS_LIB})
 
-#generate engine binary
-add_executable(${ROOT_PROJECT} ${_SOURCES})
+#define data generator project
+set(DATA_GENERATOR datagenerator)
+project(${DATA_GENERATOR})
+
+#reuse project flags and start other cmake files
+add_subdirectory(${PROJECT_ROOT_DIR}/datagenerator)
+add_subdirectory(${PROJECT_ROOT_DIR}/arrays)
+add_subdirectory(${PROJECT_ROOT_DIR}/engine)
