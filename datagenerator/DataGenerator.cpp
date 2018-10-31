@@ -25,6 +25,6 @@ void DataGenerator::run(const uint32_t dataSize, const uint32_t maxNum)
 
     for(uint32_t i = 0; i < dataSize; i++)
     {
-        printf("%d ", gen() % maxNum + 1);
+        printf("%u ", static_cast<uint32_t>(gen() % maxNum + 1));
     }
 }
