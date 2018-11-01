@@ -22,6 +22,8 @@
 class ArrayProblem : public Problem
 {
     public:
+        virtual ~ArrayProblem() = default;
+
         virtual void initData() = 0;
 
         virtual void solve() = 0;

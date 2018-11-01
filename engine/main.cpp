@@ -13,15 +13,20 @@
 //Other libraries headers
 
 //Own components headers
-#include "arrays/ContainerWithMostWater.h"
+#include "arrays/nbulecture/ContainerWithMostWater.h"
+#include "arrays/nbulecture/TwoSum.h"
 
-int main(int gc, char * argv[])
+int main(int argc, char* argv[])
 {
-    if(gc && argv)
-    {}
+    if(argc && argv) {}
 
-    ContainerWithMostWater containerWithMostWater;
-    containerWithMostWater.solve();
+    ArrayProblem * arrayProblem = nullptr;
+//    arrayProblem = new ContainerWithMostWater();
+    arrayProblem = new TwoSum();
+
+    arrayProblem->solve();
+
+    delete arrayProblem;
 
     return 0;
 }

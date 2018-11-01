@@ -1,12 +1,12 @@
 #author Stoyan Lupov
 cmake_minimum_required(VERSION 3.5.1)
 
-
 #ARRAYS_LIB project is defined in parent (root) directory
 set(ARRAYS_ROOT_DIR "${PROJECT_ROOT_DIR}/arrays")
 
 file(GLOB _SOURCES
-        "${ARRAYS_ROOT_DIR}/*.cpp")
+        "${ARRAYS_ROOT_DIR}/*.cpp"
+        "${ARRAYS_ROOT_DIR}/nbulecture/*.cpp")
 
 
 #Generate the static library from the sources

@@ -1,5 +1,5 @@
-#ifndef CODELAB_CONTAINERWITHMOSTWATER_H
-#define CODELAB_CONTAINERWITHMOSTWATER_H
+#ifndef CODELAB_ARRAYS_NBULECTURE_CONTAINERWITHMOSTWATER_H
+#define CODELAB_ARRAYS_NBULECTURE_CONTAINERWITHMOSTWATER_H
 
 /**
  *  @brief
@@ -17,13 +17,12 @@
 //Other libraries headers
 
 //Own components headers
+#include "arrays/OneDimensionArrayProblem.h"
 
-#include "ArrayProblem.h"
-
-class ContainerWithMostWater : public ArrayProblem
+class ContainerWithMostWater : public OneDimensionArrayProblem
 {
 public:
-    virtual void initData() override;
+    virtual ~ContainerWithMostWater() = default;
 
     virtual void solve() override;
 
@@ -37,14 +36,10 @@ private:
     uint32_t solveBruteForce();
 
     /**
-   * @brief consider the area for every possible pair of the lines and find
-   * out the maximum area out of those.
+   * @brief
    * @comlexity O(n)
    * **/
     uint32_t solveTwoPointers();
-
-    uint32_t * _data;
-    uint32_t _dataSize;
 };
 
-#endif //CODELAB_CONTAINERWITHMOSTWATER_H
+#endif //CODELAB_ARRAYS_NBULECTURE_CONTAINERWITHMOSTWATER_H

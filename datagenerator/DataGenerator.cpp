@@ -20,7 +20,7 @@
 
 void DataGenerator::run(const uint32_t dataSize, const uint32_t maxNum)
 {
-    //create a seed sequence with current timestamp
+    //create a seed with current timestamp
     std::mt19937 gen((uint32_t) std::time(nullptr));
 
     for(uint32_t i = 0; i < dataSize; i++)

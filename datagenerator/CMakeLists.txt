@@ -21,12 +21,43 @@ add_executable(${DATA_GENERATOR}
 #adding -std=c++14 flag
 set_property(TARGET ${DATA_GENERATOR} PROPERTY CXX_STANDARD 14)
 
-target_link_libraries(${DATA_GENERATOR})
+target_link_libraries(${DATA_GENERATOR} -static-libgcc -static-libstdc++)
 
 #invoke include-what-you-use (if it's enabled) for the current project
 if(USE_IWYU)
     set_property(TARGET ${DATA_GENERATOR} PROPERTY CXX_INCLUDE_WHAT_YOU_USE
             ${IWYU_BINARY_PATH})
 endif(USE_IWYU)
+
+#generate symbolic link for resourcebuilder after build is ready
+#also add the -f (--force) command in order to
+#override the existing symbolic link (if any)
+#add_custom_command(
+#        TARGET ${DATA_GENERATOR} POST_BUILD
+#        COMMAND
+#        mklink datagenerator datageneratorSymLink)
+#
+#
+##move symbolic link to project build directory
+#add_custom_command(
+#        TARGET ${DATA_GENERATOR} POST_BUILD
+#        COMMAND
+#        move datageneratorSymLink ${PROJECT_ROOT_DIR}/build/datagenerator)
+
+#generate symbolic link for resourcebuilder after build is ready
+#also add the -f (--force) command in order to
+#override the existing symbolic link (if any)
+#add_custom_command(
+#        TARGET ${DATA_GENERATOR} POST_BUILD
+#        COMMAND
+#        ln -sf datagenerator datageneratorSymLink)
+#
+#
+##move symbolic link to project build directory
+#add_custom_command(
+#        TARGET ${DATA_GENERATOR} POST_BUILD
+#        COMMAND
+#        mv datageneratorSymLink ${PROJECT_ROOT_DIR}/build/datagenerator)
+
 
 #add_dependencies(${DATA_GENERATOR})

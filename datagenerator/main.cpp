@@ -16,20 +16,20 @@
 //Own components headers
 #include "DataGenerator.h"
 
-int main(int gc, char * argv[])
+int main(int argc, char* argv[])
 {
     //set default values if no params were given
     uint32_t dataSize = 10;
     uint32_t maxNum   = 20;
 
-    if(gc && argv)
+    if(argc && argv)
     {
-        if(gc >= 1)
+        if(argc >= 1)
         {
             dataSize = static_cast<uint32_t>(std::strtoul(argv[1], nullptr, 0));
         }
 
-        if (gc >= 2)
+        if (argc >= 2)
         {
             maxNum = static_cast<uint32_t>(std::strtoul(argv[2], nullptr, 0));
         }
