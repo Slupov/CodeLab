@@ -27,4 +27,6 @@ void DataGenerator::run(const uint32_t dataSize, const uint32_t maxNum)
     {
         printf("%u ", static_cast<uint32_t>(gen() % maxNum + 1));
     }
+
+    printf("\n");
 }
