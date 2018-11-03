@@ -41,11 +41,16 @@ file(GLOB _SOURCES
 set(ARRAYS_LIB arrays)
 project(${ARRAYS_LIB})
 
+#define data generator library project
+set(DATA_GENERATOR_LIB datageneratorlib)
+project(${DATA_GENERATOR_LIB})
+
 #define data generator project
 set(DATA_GENERATOR datagenerator)
 project(${DATA_GENERATOR})
 
 #reuse project flags and start other cmake files
+add_subdirectory(${PROJECT_ROOT_DIR}/tools/datageneratorlib)
 add_subdirectory(${PROJECT_ROOT_DIR}/tools/datagenerator)
 add_subdirectory(${PROJECT_ROOT_DIR}/arrays)
 add_subdirectory(${PROJECT_ROOT_DIR}/engine)

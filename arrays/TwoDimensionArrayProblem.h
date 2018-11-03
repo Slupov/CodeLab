@@ -37,7 +37,11 @@ public:
      * **/
     virtual void initDataSimple() override;
 
+    virtual void initRandomData() override;
+
     virtual void solve() override;
+
+    virtual void sortArray(ArraySorter * arraySorter) override;
 
     virtual void printArray() override;
 

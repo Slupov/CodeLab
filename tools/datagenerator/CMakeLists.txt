@@ -15,6 +15,7 @@ cmake_minimum_required(VERSION 3.5.1)
 #file(GLOB...) allows for wildcard additions:
 file(GLOB _SOURCES "*.cpp")
 
+#generate datagenerator binary
 add_executable(${DATA_GENERATOR}
                ${_SOURCES})
 
@@ -27,8 +28,7 @@ if(USE_IWYU)
             ${IWYU_BINARY_PATH})
 endif(USE_IWYU)
 
-
-target_link_libraries(${DATA_GENERATOR} -static-libgcc -static-libstdc++)
+target_link_libraries(${DATA_GENERATOR} ${DATA_GENERATOR_LIB})
 
 if (WIN32)
     #generate symbolic link for resourcebuilder after build is ready
@@ -65,5 +65,7 @@ if (UNIX)
 
 endif (UNIX)
 
-
-#add_dependencies(${DATA_GENERATOR})
+#make datagenerator binary depend on datagenerator library, because binary's
+#compilation depends on successful creation of datagenerator library ->
+#therefore datagenerator library should be created first
+add_dependencies(${DATA_GENERATOR} ${DATA_GENERATOR_LIB})

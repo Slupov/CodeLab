@@ -14,7 +14,7 @@
 //Other libraries headers
 
 //Own components headers
-#include "DataGenerator.h"
+#include "tools/datageneratorlib/DataGenerator.h"
 
 int main(int argc, char* argv[])
 {

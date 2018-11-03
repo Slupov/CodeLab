@@ -17,6 +17,9 @@
 //Other libraries headers
 
 //Own components headers
+#include "sorting/ArraySorter.h"
+
+#include "tools/datageneratorlib/DataGenerator.h"
 
 TwoDimensionArrayProblem::TwoDimensionArrayProblem() : _data(nullptr),
                                                        _dataSizes(nullptr)
@@ -44,16 +47,18 @@ TwoDimensionArrayProblem::~TwoDimensionArrayProblem()
 
 void TwoDimensionArrayProblem::initData()
 {
+    printf("---------------START INIT DATA---------------\n");
+
     printf("Enter Rows: ");
     std::cin >> _rows;
-    std::cin.ignore(100,'\n'); //ignore the new line cin left in the buffer
+    std::cin.ignore(100, '\n'); //ignore the new line cin left in the buffer
 
-    _data      = new int32_t * [_rows];
-    _dataSizes = new int32_t   [_rows];
+    _data                       = new int32_t * [_rows];
+    _dataSizes                  = new int32_t[_rows];
 
     std::string input;
-    uint64_t inputStringSize = 0;
-    int32_t inputNum = 0;
+    uint64_t    inputStringSize = 0;
+    int32_t     inputNum        = 0;
 
     for(int32_t r = 0; r < _rows; ++r)
     {
@@ -94,10 +99,14 @@ void TwoDimensionArrayProblem::initData()
             _data[r][i] = inputNum;
         }
     }
+
+    printf("----------------END INIT DATA----------------\n");
 }
 
 void TwoDimensionArrayProblem::initDataSimple()
 {
+    printf("---------------START INIT DATA---------------\n");
+
     int32_t rows = 0;
     int32_t cols = 0;
 
@@ -107,18 +116,18 @@ void TwoDimensionArrayProblem::initDataSimple()
 
     printf("Enter cols: ");
     std::cin >> cols;
-    std::cin.ignore(100,'\n'); //ignore the new line cin left in the buffer
+    std::cin.ignore(100, '\n'); //ignore the new line cin left in the buffer
 
-    _data = new int32_t * [rows];
-    _dataSizes = new int32_t   [_rows];
+    _data                = new int32_t * [rows];
+    _dataSizes           = new int32_t[_rows];
 
     std::string input;
-    int32_t inputNum = 0;
+    int32_t     inputNum = 0;
 
     for(int32_t row = 0; row < _rows; ++row)
     {
         _dataSizes[row] = cols;
-        _data[row]      = new int32_t [cols];
+        _data[row]      = new int32_t[cols];
 
         printf("Enter sub-array[%d]:", row);
 
@@ -132,23 +141,63 @@ void TwoDimensionArrayProblem::initDataSimple()
             _data[row][i] = inputNum;
         }
     }
+
+    printf("----------------END INIT DATA----------------\n");
 }
 
 void TwoDimensionArrayProblem::solve()
 {
 //    initData();
-//    initDataSimple();
+    initDataSimple();
 }
 
 void TwoDimensionArrayProblem::printArray()
 {
     for(int32_t r = 0; r < _rows; ++r)
     {
-        for (int32_t i = 0; i < _dataSizes[r]; ++i)
+        for(int32_t i = 0; i < _dataSizes[r]; ++i)
         {
             printf("%d ", _data[r][i]);
         }
 
         printf("\n");
     }
+}
+
+void TwoDimensionArrayProblem::sortArray(ArraySorter * arraySorter)
+{
+    for(int32_t r = 0; r < _rows; ++r)
+    {
+        arraySorter->sort(_data[r], _dataSizes[r]);
+    }
+}
+
+void TwoDimensionArrayProblem::initRandomData()
+{
+    printf("---------------START INIT RANDOM DATA---------------\n");
+
+    int32_t rows = 0;
+    int32_t cols = 0;
+
+    printf("Enter rows: ");
+    std::cin >> rows;
+    _rows = rows;
+
+    printf("Enter cols: ");
+    std::cin >> cols;
+    std::cin.ignore(100, '\n'); //ignore the new line cin left in the buffer
+
+    //define array
+    _data      = new int32_t * [_rows];
+    _dataSizes = new int32_t[_rows];
+
+    DataGenerator gen;
+
+    for(int32_t i = 0; i < _rows; ++i)
+    {
+        _data[i] = new int32_t[cols];
+        gen.populateArray(_data[i], cols, 10000);
+    }
+
+    printf("----------------END INIT RANDOM DATA----------------\n");
 }

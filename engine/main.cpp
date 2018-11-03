@@ -13,24 +13,27 @@
 //Other libraries headers
 
 //Own components headers
-#include "arrays/nbulecture/ContainerWithMostWater.h"
-#include "arrays/nbulecture/TwoSum.h"
+#include "arrays/sorting/BubbleSort.h"
 
-#include "arrays/TwoDimensionArrayProblem.h"
-
+#include "arrays/nbulecture/1D/ContainerWithMostWater.h"
+#include "arrays/nbulecture/1D/TwoSum.h"
 
 int main(int argc, char* argv[])
 {
     if(argc && argv) {}
 
     ArrayProblem * arrayProblem = nullptr;
+    ArraySorter  * arraySorter  = nullptr;
+
+    arraySorter  = new BubbleSort();
+
 //    arrayProblem = new ContainerWithMostWater();
-//    arrayProblem = new TwoSum();
+    arrayProblem = new TwoSum();
 
-//    arrayProblem = new OneDimensionArrayProblem();
-//    arrayProblem = new TwoDimensionArrayProblem();
-
-    arrayProblem->solve();
+//    arrayProblem->solve();
+    arrayProblem->initData();
+    arrayProblem->sortArray(arraySorter);
+    arrayProblem->printArray();
 
     delete arrayProblem;
 

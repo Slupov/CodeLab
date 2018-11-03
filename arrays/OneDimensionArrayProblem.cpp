@@ -17,7 +17,9 @@
 //Other libraries headers
 
 //Own components headers
+#include "sorting/ArraySorter.h"
 
+#include "tools/datageneratorlib/DataGenerator.h"
 
 OneDimensionArrayProblem::OneDimensionArrayProblem() : _data(nullptr),
                                                        _dataSize(0)
@@ -32,9 +34,12 @@ OneDimensionArrayProblem::~OneDimensionArrayProblem()
     _dataSize = 0;
 }
 
-
 void OneDimensionArrayProblem::initData()
 {
+    printf("---------------START INIT DATA---------------\n");
+
+    printf("Enter array: ");
+
     std::string input;
     getline(std::cin, input);
 
@@ -70,10 +75,14 @@ void OneDimensionArrayProblem::initData()
         iss >> num;
         _data[i] = num;
     }
+
+    printf("----------------END INIT DATA----------------\n");
 }
 
 void OneDimensionArrayProblem::initDataSimple()
 {
+    printf("---------------START INIT DATA---------------\n");
+
     printf("Enter cols: ");
     std::cin >> _dataSize;
     std::cin.ignore(100,'\n'); //ignore the new line cin left in the buffer
@@ -96,6 +105,8 @@ void OneDimensionArrayProblem::initDataSimple()
         iss >> num;
         _data[i] = num;
     }
+
+    printf("----------------END INIT DATA----------------\n");
 }
 
 void OneDimensionArrayProblem::solve()
@@ -112,4 +123,25 @@ void OneDimensionArrayProblem::printArray()
     }
 
     printf("\n");
+}
+
+void OneDimensionArrayProblem::sortArray(ArraySorter * arraySorter)
+{
+    arraySorter->sort(_data, _dataSize);
+}
+
+void OneDimensionArrayProblem::initRandomData()
+{
+    printf("---------------START INIT RANDOM DATA---------------\n");
+
+    printf("Enter cols: ");
+    std::cin >> _dataSize;
+
+    //define array
+    _data = new int32_t[_dataSize];
+
+    DataGenerator gen;
+    gen.populateArray(_data, _dataSize, 10000);
+
+    printf("----------------END INIT RANDOM DATA----------------\n");
 }

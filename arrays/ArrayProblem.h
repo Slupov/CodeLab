@@ -19,6 +19,9 @@
 //Own components headers
 #include "Problem.h"
 
+//Forward declarations
+class ArraySorter;
+
 class ArrayProblem : public Problem
 {
     public:
@@ -28,7 +31,11 @@ class ArrayProblem : public Problem
 
         virtual void initDataSimple() = 0;
 
+        virtual void initRandomData() = 0;
+
         virtual void solve() = 0;
+
+        virtual void sortArray(ArraySorter * arraySorter) = 0;
 
         virtual void printArray() = 0;
 };

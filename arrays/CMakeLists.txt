@@ -6,12 +6,15 @@ set(ARRAYS_ROOT_DIR "${PROJECT_ROOT_DIR}/arrays")
 
 file(GLOB _SOURCES
         "${ARRAYS_ROOT_DIR}/*.cpp"
+        "${ARRAYS_ROOT_DIR}/sorting/*.cpp"
+        "${ARRAYS_ROOT_DIR}/nbulecture/1D/*.cpp"
+        "${ARRAYS_ROOT_DIR}/nbulecture/2D/*.cpp"
         "${ARRAYS_ROOT_DIR}/nbulecture/*.cpp")
 
 
 #Generate the static library from the sources
 add_library(${ARRAYS_LIB} STATIC
-        ${_SOURCES} TwoDimensionArrayProblem.cpp TwoDimensionArrayProblem.h)
+        ${_SOURCES})
 
 #adding -std=c++14 flag
 set_property(TARGET ${ARRAYS_LIB} PROPERTY CXX_STANDARD 14)
@@ -25,4 +28,10 @@ endif(USE_IWYU)
 
 target_link_libraries(
         ${ARRAYS_LIB}
+        ${DATA_GENERATOR_LIB}
         ${CMAKE_DL_LIBS})      # -ldl flag
+
+#make array library depend on datagenerator library, because library's
+#compilation depends on successful creation of datagenerator library ->
+#therefore datagenerator library should be created first
+add_dependencies(${ARRAYS_LIB} ${DATA_GENERATOR_LIB})
