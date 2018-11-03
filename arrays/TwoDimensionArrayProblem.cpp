@@ -21,6 +21,8 @@
 
 #include "tools/datageneratorlib/DataGenerator.h"
 
+#define MATRIX_MAX_NUM 100
+
 TwoDimensionArrayProblem::TwoDimensionArrayProblem() : _data(nullptr),
                                                        _dataSizes(nullptr)
 {
@@ -148,7 +150,8 @@ void TwoDimensionArrayProblem::initDataSimple()
 void TwoDimensionArrayProblem::solve()
 {
 //    initData();
-    initDataSimple();
+//    initDataSimple();
+      initRandomData();
 }
 
 void TwoDimensionArrayProblem::printArray()
@@ -197,7 +200,9 @@ void TwoDimensionArrayProblem::initRandomData()
     for(int32_t i = 0; i < _rows; ++i)
     {
         _data[i] = new int32_t[cols];
-        gen.populateArray(_data[i], cols, 10000);
+        _dataSizes[i] = cols;
+
+        gen.populateArray(_data[i], cols, MATRIX_MAX_NUM);
     }
 
     printf("----------------END INIT RANDOM DATA----------------\n");

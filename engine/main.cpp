@@ -20,6 +20,7 @@
 #include "arrays/nbulecture/1D/ArrayShift.h"
 
 #include "arrays/nbulecture/2D/MatrixMultiplication.h"
+#include "arrays/nbulecture/2D/TransposeMatrix.h"
 
 int main(int argc, char* argv[])
 {
@@ -35,7 +36,8 @@ int main(int argc, char* argv[])
 //    arrayProblem = new ContainerWithMostWater();
 //    arrayProblem = new TwoSum();
 //    arrayProblem = new ArrayShift();
-    arrayProblem = new MatrixMultiplication();
+//    arrayProblem = new MatrixMultiplication();
+    arrayProblem = new TransposeMatrix();
     arrayProblem->solve();
 //    arrayProblem->printArray();
 
