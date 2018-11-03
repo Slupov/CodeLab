@@ -11,7 +11,7 @@ file(GLOB _SOURCES
 
 #Generate the static library from the sources
 add_library(${ARRAYS_LIB} STATIC
-        ${_SOURCES})
+        ${_SOURCES} TwoDimensionArrayProblem.cpp TwoDimensionArrayProblem.h)
 
 #adding -std=c++14 flag
 set_property(TARGET ${ARRAYS_LIB} PROPERTY CXX_STANDARD 14)

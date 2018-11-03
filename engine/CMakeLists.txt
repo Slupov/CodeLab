@@ -40,3 +40,38 @@ target_link_libraries(
         ${ENGINE_PROJECT}
         ${ARRAYS_LIB}
         ${CMAKE_DL_LIBS})
+
+if (WIN32)
+    #generate symbolic link for resourcebuilder after build is ready
+    #also add the -f (--force) command in order to
+    #override the existing symbolic link (if any)
+    add_custom_command(
+            TARGET ${ENGINE_PROJECT} POST_BUILD
+            COMMAND
+            mklink engine/engine engineSymLink)
+
+
+    ##move symbolic link to project build directory
+    add_custom_command(
+            TARGET ${ENGINE_PROJECT} POST_BUILD
+            COMMAND
+            move engineSymLink ${PROJECT_ROOT_DIR}/build/codelab)
+endif (WIN32)
+
+if (UNIX)
+    #generate symbolic link for resourcebuilder after build is ready
+    #also add the -f (--force) command in order to
+    #override the existing symbolic link (if any)
+    add_custom_command(
+            TARGET ${ENGINE_PROJECT} POST_BUILD
+            COMMAND
+            ln -sf engine/engine engineSymLink)
+
+
+    ##move symbolic link to project build directory
+    add_custom_command(
+            TARGET ${ENGINE_PROJECT} POST_BUILD
+            COMMAND
+            mv engineSymLink ${PROJECT_ROOT_DIR}/build/codelab)
+
+endif (UNIX)

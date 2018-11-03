@@ -16,13 +16,19 @@
 #include "arrays/nbulecture/ContainerWithMostWater.h"
 #include "arrays/nbulecture/TwoSum.h"
 
+#include "arrays/TwoDimensionArrayProblem.h"
+
+
 int main(int argc, char* argv[])
 {
     if(argc && argv) {}
 
     ArrayProblem * arrayProblem = nullptr;
 //    arrayProblem = new ContainerWithMostWater();
-    arrayProblem = new TwoSum();
+//    arrayProblem = new TwoSum();
+
+//    arrayProblem = new OneDimensionArrayProblem();
+//    arrayProblem = new TwoDimensionArrayProblem();
 
     arrayProblem->solve();
 

@@ -26,7 +26,11 @@ class ArrayProblem : public Problem
 
         virtual void initData() = 0;
 
+        virtual void initDataSimple() = 0;
+
         virtual void solve() = 0;
+
+        virtual void printArray() = 0;
 };
 
 

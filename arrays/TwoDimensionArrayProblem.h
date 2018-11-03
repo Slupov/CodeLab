@@ -1,5 +1,5 @@
-#ifndef CODELAB_ARRAYS_ONEDIMENSIONARRAYPROBLEM_H
-#define CODELAB_ARRAYS_ONEDIMENSIONARRAYPROBLEM_H
+#ifndef CODELAB_ARRAYS_TWODIMENSIONARRAYPROBLEM_H
+#define CODELAB_ARRAYS_TWODIMENSIONARRAYPROBLEM_H
 
 /**
  *  @brief
@@ -18,12 +18,12 @@
 //Own components headers
 #include "ArrayProblem.h"
 
-class OneDimensionArrayProblem : public ArrayProblem
+class TwoDimensionArrayProblem : public ArrayProblem
 {
 public:
-    OneDimensionArrayProblem();
+    TwoDimensionArrayProblem();
 
-    virtual ~OneDimensionArrayProblem();
+    virtual ~TwoDimensionArrayProblem();
 
     /**
      * @brief Takes input data in format %d %d %d %d %d ... %d
@@ -31,6 +31,10 @@ public:
      * **/
     virtual void initData() override;
 
+    /**
+     * @brief A simpler way of inputing the data. The user gives rows and cols
+     * values beforehand
+     * **/
     virtual void initDataSimple() override;
 
     virtual void solve() override;
@@ -38,9 +42,12 @@ public:
     virtual void printArray() override;
 
 protected:
-    int32_t * _data;
-    int32_t   _dataSize;
+    int32_t ** _data;
+    int32_t  * _dataSizes; //each row's column count
+
+    int32_t    _rows;
+
 };
 
 
-#endif //CODELAB_ARRAYS_ONEDIMENSIONARRAYPROBLEM_H
+#endif //CODELAB_ARRAYS_TWODIMENSIONARRAYPROBLEM_H
