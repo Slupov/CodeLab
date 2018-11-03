@@ -17,6 +17,9 @@
 
 #include "arrays/nbulecture/1D/ContainerWithMostWater.h"
 #include "arrays/nbulecture/1D/TwoSum.h"
+#include "arrays/nbulecture/1D/ArrayShift.h"
+
+#include "arrays/nbulecture/2D/MatrixMultiplication.h"
 
 int main(int argc, char* argv[])
 {
@@ -26,14 +29,15 @@ int main(int argc, char* argv[])
     ArraySorter  * arraySorter  = nullptr;
 
     arraySorter  = new BubbleSort();
+    
+    if (arraySorter && arrayProblem) {}
 
 //    arrayProblem = new ContainerWithMostWater();
-    arrayProblem = new TwoSum();
-
-//    arrayProblem->solve();
-    arrayProblem->initData();
-    arrayProblem->sortArray(arraySorter);
-    arrayProblem->printArray();
+//    arrayProblem = new TwoSum();
+//    arrayProblem = new ArrayShift();
+    arrayProblem = new MatrixMultiplication();
+    arrayProblem->solve();
+//    arrayProblem->printArray();
 
     delete arrayProblem;
 

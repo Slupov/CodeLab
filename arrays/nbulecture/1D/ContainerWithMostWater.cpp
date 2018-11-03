@@ -25,25 +25,29 @@ void ContainerWithMostWater::solve()
 {
     OneDimensionArrayProblem::solve();
 
-    std::cout << "Result: " << solveBruteForce() << std::endl;
-    std::cout << "Result: " << solveTwoPointers() << std::endl;
+    std::cout << "Brute force approach output: " << solveBruteForce()
+              << std::endl;
+
+    std::cout << "Two pointers approach output: " << solveTwoPointers()
+              << std::endl;
 }
 
 uint32_t ContainerWithMostWater::solveBruteForce()
 {
-    int32_t maxArea = 0;
+    int32_t maxArea     = 0;
     int32_t currentArea = UINT32_MAX;
 
     int32_t areaHeight = 0;
 
-    for (int32_t i = 0; i < _dataSize; ++i)
+    for(int32_t i = 0; i < _dataSize; ++i)
     {
-        for (int32_t j = i + 1; j < _dataSize; ++j)
+        for(int32_t j = i + 1; j < _dataSize; ++j)
         {
-            areaHeight = _data[i] < _data[j] ? _data[i] : _data[j];
+            areaHeight  = _data[i] < _data[j] ? _data[i] : _data[j];
             currentArea = areaHeight * (j - i);
 
-            if (maxArea < currentArea) maxArea = currentArea;
+            if(maxArea < currentArea)
+            { maxArea = currentArea; }
         }
     }
 
@@ -52,7 +56,7 @@ uint32_t ContainerWithMostWater::solveBruteForce()
 
 uint32_t ContainerWithMostWater::solveTwoPointers()
 {
-    int32_t maxArea = 0;
+    int32_t maxArea     = 0;
     int32_t currentArea = UINT32_MAX;
 
     //store the left and right index positions of the range
@@ -61,17 +65,22 @@ uint32_t ContainerWithMostWater::solveTwoPointers()
 
     int32_t areaHeight = 0;
 
-    while (left < right)
+    while(left < right)
     {
         areaHeight  = _data[left] < _data[right] ? _data[left] : _data[right];
         currentArea = areaHeight * (right - left);
 
-        if (maxArea < currentArea) maxArea = currentArea;
+        if(maxArea < currentArea)
+        { maxArea = currentArea; }
 
-        if (_data[left] < _data[right])
+        if(_data[left] < _data[right])
+        {
             ++left;
+        }
         else
+        {
             --right;
+        }
     }
 
     return maxArea;

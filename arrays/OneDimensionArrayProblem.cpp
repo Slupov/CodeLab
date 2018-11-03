@@ -134,14 +134,20 @@ void OneDimensionArrayProblem::initRandomData()
 {
     printf("---------------START INIT RANDOM DATA---------------\n");
 
+    uint32_t maxNum = 0;
+
     printf("Enter cols: ");
     std::cin >> _dataSize;
+
+    printf("Enter max num: ");
+    std::cin >> maxNum;
 
     //define array
     _data = new int32_t[_dataSize];
 
     DataGenerator gen;
-    gen.populateArray(_data, _dataSize, 10000);
+    gen.seed();
+    gen.populateArray(_data, _dataSize, maxNum);
 
     printf("----------------END INIT RANDOM DATA----------------\n");
 }

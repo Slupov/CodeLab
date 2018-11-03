@@ -15,6 +15,7 @@
 
 //C++ system headers
 #include <cstdint>
+#include <random>
 
 //Other libraries headers
 
@@ -23,9 +24,15 @@
 class DataGenerator
 {
 public:
+    void seed();
+
     void run(const uint32_t dataSize, const uint32_t maxNum);
 
-    void populateArray(int32_t * array, const uint32_t arraySize, const uint32_t maxNum);
+    void populateArray(int32_t * array, const uint32_t arraySize,
+                       const uint32_t maxNum);
+
+private:
+    std::mt19937 gen;
 };
 
 

@@ -20,8 +20,7 @@
 
 void DataGenerator::run(const uint32_t dataSize, const uint32_t maxNum)
 {
-    //create a seed with current timestamp
-    std::mt19937 gen((uint32_t) std::time(nullptr));
+    seed();
 
     for(uint32_t i = 0; i < dataSize; i++)
     {
@@ -34,11 +33,13 @@ void DataGenerator::run(const uint32_t dataSize, const uint32_t maxNum)
 void DataGenerator::populateArray(int32_t * array, const uint32_t arraySize,
                                   const uint32_t maxNum)
 {
-    //create a seed with current timestamp
-    std::mt19937 gen((uint32_t) std::time(nullptr));
-
     for(uint32_t i = 0; i < arraySize; i++)
     {
         array[i] = static_cast<int32_t>(gen() % maxNum + 1);
     }
+}
+
+void DataGenerator::seed()
+{
+    gen.seed((uint32_t) std::time(nullptr));
 }

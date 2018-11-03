@@ -192,6 +192,7 @@ void TwoDimensionArrayProblem::initRandomData()
     _dataSizes = new int32_t[_rows];
 
     DataGenerator gen;
+    gen.seed();
 
     for(int32_t i = 0; i < _rows; ++i)
     {
