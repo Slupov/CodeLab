@@ -63,6 +63,14 @@ void OneDimensionArrayProblem::initData()
     {
         ++_dataSize;
     }
+    else //data size still 0 but might be a single number without spaces
+    {
+        //!!! provided that input is always valid
+        if (INPUT_STRING_SIZE >= 1)
+        {
+            _dataSize = 1;
+        }
+    }
 
     //define array
     _data = new int32_t[_dataSize];
@@ -111,8 +119,8 @@ void OneDimensionArrayProblem::initDataSimple()
 
 void OneDimensionArrayProblem::solve()
 {
-//    initData();
-    initDataSimple();
+    initData();
+//    initDataSimple();
 }
 
 void OneDimensionArrayProblem::printArray()

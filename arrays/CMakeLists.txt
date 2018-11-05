@@ -9,6 +9,8 @@ file(GLOB _SOURCES
         "${ARRAYS_ROOT_DIR}/sorting/*.cpp"
         "${ARRAYS_ROOT_DIR}/nbulecture/1D/*.cpp"
         "${ARRAYS_ROOT_DIR}/nbulecture/2D/*.cpp"
+        "${ARRAYS_ROOT_DIR}/nbulecture/homework/*.cpp"
+        "${ARRAYS_ROOT_DIR}/nbulecture/homework/skeleton/*.cpp"
         "${ARRAYS_ROOT_DIR}/nbulecture/*.cpp")
 
 

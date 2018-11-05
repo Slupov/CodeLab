@@ -20,11 +20,18 @@
 
 void DataGenerator::run(const uint32_t dataSize, const uint32_t maxNum)
 {
+    if (0 == dataSize)
+    {
+        return;
+    }
+
     seed();
 
-    for(uint32_t i = 0; i < dataSize; i++)
+    printf("%u", static_cast<uint32_t>(gen() % (maxNum + 1)));
+
+    for(uint32_t i = 1; i < dataSize; i++)
     {
-        printf("%u ", static_cast<uint32_t>(gen() % maxNum + 1));
+        printf(" %u", static_cast<uint32_t>(gen() % (maxNum + 1)));
     }
 
     printf("\n");
@@ -35,7 +42,7 @@ void DataGenerator::populateArray(int32_t * array, const uint32_t arraySize,
 {
     for(uint32_t i = 0; i < arraySize; i++)
     {
-        array[i] = static_cast<int32_t>(gen() % maxNum + 1);
+        array[i] = static_cast<int32_t>(gen() % (maxNum + 1));
     }
 }
 

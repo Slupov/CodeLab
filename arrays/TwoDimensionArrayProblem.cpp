@@ -88,6 +88,14 @@ void TwoDimensionArrayProblem::initData()
         {
             ++_dataSizes[r];
         }
+        else //data size still 0 but might be a single number without spaces
+        {
+            //!!! provided that input is always valid
+            if (inputStringSize >= 1)
+            {
+                _dataSizes[r] = 1;
+            }
+        }
 
         //define array
         _data[r] = new int32_t[_dataSizes[r]];
@@ -109,18 +117,16 @@ void TwoDimensionArrayProblem::initDataSimple()
 {
     printf("---------------START INIT DATA---------------\n");
 
-    int32_t rows = 0;
     int32_t cols = 0;
 
     printf("Enter rows: ");
-    std::cin >> rows;
-    _rows = rows;
+    std::cin >> _rows;
 
     printf("Enter cols: ");
     std::cin >> cols;
     std::cin.ignore(100, '\n'); //ignore the new line cin left in the buffer
 
-    _data                = new int32_t * [rows];
+    _data                = new int32_t * [_rows];
     _dataSizes           = new int32_t[_rows];
 
     std::string input;
@@ -150,8 +156,8 @@ void TwoDimensionArrayProblem::initDataSimple()
 void TwoDimensionArrayProblem::solve()
 {
 //    initData();
-//    initDataSimple();
-      initRandomData();
+    initDataSimple();
+//      initRandomData();
 }
 
 void TwoDimensionArrayProblem::printArray()

@@ -22,6 +22,11 @@
 #include "arrays/nbulecture/2D/MatrixMultiplication.h"
 #include "arrays/nbulecture/2D/TransposeMatrix.h"
 
+#include "arrays/nbulecture/homework/OneTwoBitCharacter.h"
+
+#include "arrays/nbulecture/homework/ToeplitzMatrix.h"
+#include "arrays/nbulecture/homework/SpiralMatrix.h"
+
 int main(int argc, char* argv[])
 {
     if(argc && argv) {}
@@ -37,9 +42,12 @@ int main(int argc, char* argv[])
 //    arrayProblem = new TwoSum();
 //    arrayProblem = new ArrayShift();
 //    arrayProblem = new MatrixMultiplication();
-    arrayProblem = new TransposeMatrix();
+//    arrayProblem = new TransposeMatrix();
+//    arrayProblem = new OneTwoBitCharacter();
+    arrayProblem = new ToeplitzMatrix();
+//    arrayProblem = new SpiralMatrix();
     arrayProblem->solve();
-//    arrayProblem->printArray();
+    arrayProblem->printArray();
 
     delete arrayProblem;
 

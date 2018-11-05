@@ -34,6 +34,7 @@ file(GLOB _SOURCES
         "${PROJECT_ROOT_DIR}/tools/datagenerator/*.cpp"
         "${PROJECT_ROOT_DIR}/arrays/*.cpp"
         "${PROJECT_ROOT_DIR}/engine/*.cpp"
+        "${PROJECT_ROOT_DIR}/dummy_test/*.cpp"
         )
 
 #### START CHILD PROJECT DEFINES ####
@@ -49,8 +50,13 @@ project(${DATA_GENERATOR_LIB})
 set(DATA_GENERATOR datagenerator)
 project(${DATA_GENERATOR})
 
+#define data generator project
+set(TEST dummy_test)
+project(${TEST})
+
 #reuse project flags and start other cmake files
 add_subdirectory(${PROJECT_ROOT_DIR}/tools/datageneratorlib)
 add_subdirectory(${PROJECT_ROOT_DIR}/tools/datagenerator)
 add_subdirectory(${PROJECT_ROOT_DIR}/arrays)
 add_subdirectory(${PROJECT_ROOT_DIR}/engine)
+add_subdirectory(${PROJECT_ROOT_DIR}/dummy_test)
