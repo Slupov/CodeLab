@@ -16,8 +16,6 @@
 
 //Own components headers
 
-#define UNPOPULATED_CELL INT32_MIN
-
 using namespace std;
 
 void deallocate(int **& matrix, int n)
@@ -54,9 +52,6 @@ void initData(int ** & matrix, int & n)
 void solve(int ** & matrix, int n)
 {
     /**your solution code goes here**/
-
-    //output and deallocation of dynamic memory
-    deallocate(matrix, n);
 }
 
 int main()
@@ -66,6 +61,7 @@ int main()
 
     initData(matrix, n);
     solve(matrix, n);
+    deallocate(matrix, n);
 
     return 0;
 }

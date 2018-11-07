@@ -51,7 +51,6 @@ void initData(int * & array, int & n)
     }
     else //data size still 0 but might be a single number without spaces
     {
-        //!!! provided that input is always valid
         if (INPUT_STRING_SIZE >= 1)
         {
             n = 1;
@@ -80,9 +79,6 @@ void solve(int * & array, int n)
     //hint: assign outputCondition to some boolean expression
     bool outputCondition = true;
     printf("%s", outputCondition ? "true" : "false");
-
-    /*deallocation of dynamic memory*/
-    deallocateMemory(array);
 }
 
 int main()
