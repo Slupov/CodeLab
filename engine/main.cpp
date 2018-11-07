@@ -13,6 +13,8 @@
 //Other libraries headers
 
 //Own components headers
+#include "arrays/VillagesDistances.h"
+
 #include "arrays/search/BinarySearch.h"
 
 #include "arrays/sorting/ParitySort.h"
@@ -25,6 +27,7 @@
 #include "arrays/nbulecture/2D/FlippingAnImage.h"
 #include "arrays/nbulecture/2D/MatrixMultiplication.h"
 #include "arrays/nbulecture/2D/TransposeMatrix.h"
+#include "arrays/nbulecture/2D/MaxHourGlass.h"
 
 #include "arrays/nbulecture/homework/OneTwoBitCharacter.h"
 
@@ -43,7 +46,7 @@ int main(int argc, char* argv[])
 
     if (arraySorter && arrayProblem) {}
 
-    arrayProblem = new ContainerWithMostWater();
+//    arrayProblem = new ContainerWithMostWater();
 //    arrayProblem = new TwoSum();
 //    arrayProblem = new ArrayShift();
 //    arrayProblem = new MatrixMultiplication();
@@ -52,7 +55,7 @@ int main(int argc, char* argv[])
 //    arrayProblem = new ToeplitzMatrix();
 //    arrayProblem = new SpiralMatrix();
 //    arrayProblem = new FlippingAnImage();
-    arrayProblem = new BinarySearch();
+    arrayProblem = new MaxHourGlass();
     arrayProblem->solve();
     printf("\n");
 //    arrayProblem->sortArray(arraySorter);

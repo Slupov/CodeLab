@@ -166,7 +166,7 @@ void TwoDimensionArrayProblem::printArray()
     {
         for(int32_t i = 0; i < _dataSizes[r]; ++i)
         {
-            printf("%d ", _data[r][i]);
+            printf("%5d ", _data[r][i]);
         }
 
         printf("\n");

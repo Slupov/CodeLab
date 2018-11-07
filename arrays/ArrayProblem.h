@@ -5,6 +5,10 @@
  *  @brief
  *  @date 19.09.18
  *  @author Stoyan Lupov
+ *  @TODO Try to unify the 1D and 2D array problem classes into one by storing
+ *  pointers to different dimensions inside a vector. [0] - last dimension,
+ *  [n-1] - first dimension. Also make the class a template so we're not limited
+ *  to a single data type
  */
 
 //Corresponding header

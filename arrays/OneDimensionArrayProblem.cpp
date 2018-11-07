@@ -119,8 +119,10 @@ void OneDimensionArrayProblem::initDataSimple()
 
 void OneDimensionArrayProblem::solve()
 {
-    initData();
+//    initData();
 //    initDataSimple();
+//    initRandomData();
+    initRandomDataSorted();
 }
 
 void OneDimensionArrayProblem::printArray()
