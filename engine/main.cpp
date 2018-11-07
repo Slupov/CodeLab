@@ -13,12 +13,16 @@
 //Other libraries headers
 
 //Own components headers
+#include "arrays/search/BinarySearch.h"
+
+#include "arrays/sorting/ParitySort.h"
 #include "arrays/sorting/BubbleSort.h"
 
 #include "arrays/nbulecture/1D/ContainerWithMostWater.h"
 #include "arrays/nbulecture/1D/TwoSum.h"
 #include "arrays/nbulecture/1D/ArrayShift.h"
 
+#include "arrays/nbulecture/2D/FlippingAnImage.h"
 #include "arrays/nbulecture/2D/MatrixMultiplication.h"
 #include "arrays/nbulecture/2D/TransposeMatrix.h"
 
@@ -34,20 +38,25 @@ int main(int argc, char* argv[])
     ArrayProblem * arrayProblem = nullptr;
     ArraySorter  * arraySorter  = nullptr;
 
-    arraySorter  = new BubbleSort();
-    
+//    arraySorter  = new BubbleSort();
+    arraySorter  = new ParitySort();
+
     if (arraySorter && arrayProblem) {}
 
-//    arrayProblem = new ContainerWithMostWater();
+    arrayProblem = new ContainerWithMostWater();
 //    arrayProblem = new TwoSum();
 //    arrayProblem = new ArrayShift();
 //    arrayProblem = new MatrixMultiplication();
 //    arrayProblem = new TransposeMatrix();
 //    arrayProblem = new OneTwoBitCharacter();
-    arrayProblem = new ToeplitzMatrix();
+//    arrayProblem = new ToeplitzMatrix();
 //    arrayProblem = new SpiralMatrix();
+//    arrayProblem = new FlippingAnImage();
+    arrayProblem = new BinarySearch();
     arrayProblem->solve();
-    arrayProblem->printArray();
+    printf("\n");
+//    arrayProblem->sortArray(arraySorter);
+//    arrayProblem->printArray();
 
     delete arrayProblem;
 

@@ -156,8 +156,8 @@ void TwoDimensionArrayProblem::initDataSimple()
 void TwoDimensionArrayProblem::solve()
 {
 //    initData();
-    initDataSimple();
-//      initRandomData();
+//    initDataSimple();
+      initRandomData();
 }
 
 void TwoDimensionArrayProblem::printArray()
@@ -212,4 +212,37 @@ void TwoDimensionArrayProblem::initRandomData()
     }
 
     printf("----------------END INIT RANDOM DATA----------------\n");
+}
+
+void TwoDimensionArrayProblem::initRandomDataSorted()
+{
+    printf("---------------START INIT RANDOM DATA SORTED---------------\n");
+
+    int32_t rows = 0;
+    int32_t cols = 0;
+
+    printf("Enter rows: ");
+    std::cin >> rows;
+    _rows = rows;
+
+    printf("Enter cols: ");
+    std::cin >> cols;
+    std::cin.ignore(100, '\n'); //ignore the new line cin left in the buffer
+
+    //define array
+    _data      = new int32_t * [_rows];
+    _dataSizes = new int32_t[_rows];
+
+    DataGenerator gen;
+    gen.seed();
+
+    for(int32_t i = 0; i < _rows; ++i)
+    {
+        _data[i] = new int32_t[cols];
+        _dataSizes[i] = cols;
+
+        gen.populateArraySorted(_data[i], cols, MATRIX_MAX_NUM);
+    }
+
+    printf("----------------END INIT RANDOM DATA SORTED----------------\n");
 }

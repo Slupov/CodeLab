@@ -66,7 +66,7 @@ void OneDimensionArrayProblem::initData()
     else //data size still 0 but might be a single number without spaces
     {
         //!!! provided that input is always valid
-        if (INPUT_STRING_SIZE >= 1)
+        if(INPUT_STRING_SIZE >= 1)
         {
             _dataSize = 1;
         }
@@ -93,7 +93,7 @@ void OneDimensionArrayProblem::initDataSimple()
 
     printf("Enter cols: ");
     std::cin >> _dataSize;
-    std::cin.ignore(100,'\n'); //ignore the new line cin left in the buffer
+    std::cin.ignore(100, '\n'); //ignore the new line cin left in the buffer
 
     //define array
     _data = new int32_t[_dataSize];
@@ -125,7 +125,7 @@ void OneDimensionArrayProblem::solve()
 
 void OneDimensionArrayProblem::printArray()
 {
-    for (int32_t i = 0; i < _dataSize; ++i)
+    for(int32_t i = 0; i < _dataSize; ++i)
     {
         printf("%d ", _data[i]);
     }
@@ -158,4 +158,26 @@ void OneDimensionArrayProblem::initRandomData()
     gen.populateArray(_data, _dataSize, maxNum);
 
     printf("----------------END INIT RANDOM DATA----------------\n");
+}
+
+void OneDimensionArrayProblem::initRandomDataSorted()
+{
+    printf("---------------START INIT RANDOM DATA SORTED---------------\n");
+
+    uint32_t maxNum = 0;
+
+    printf("Enter cols: ");
+    std::cin >> _dataSize;
+
+    printf("Enter max num: ");
+    std::cin >> maxNum;
+
+    //define array
+    _data = new int32_t[_dataSize];
+
+    DataGenerator gen;
+    gen.seed();
+    gen.populateArraySorted(_data, _dataSize, maxNum);
+
+    printf("----------------END INIT RANDOM DATA SORTED----------------\n");
 }

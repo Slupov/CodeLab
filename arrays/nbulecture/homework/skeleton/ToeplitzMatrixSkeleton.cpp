@@ -63,7 +63,10 @@ void initData(int ** & matrix, int & rows, int & cols)
 void solve(int ** & matrix, int rows, int cols)
 {
     /**your solution code goes here**/
+    if (matrix && rows && cols)
+    {
 
+    }
 }
 
 int main()

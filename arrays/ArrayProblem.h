@@ -33,6 +33,8 @@ class ArrayProblem : public Problem
 
         virtual void initRandomData() = 0;
 
+        virtual void initRandomDataSorted() = 0;
+
         virtual void solve() = 0;
 
         virtual void sortArray(ArraySorter * arraySorter) = 0;

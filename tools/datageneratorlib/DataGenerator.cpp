@@ -20,7 +20,7 @@
 
 void DataGenerator::run(const uint32_t dataSize, const uint32_t maxNum)
 {
-    if (0 == dataSize)
+    if(0 == dataSize)
     {
         return;
     }
@@ -49,4 +49,18 @@ void DataGenerator::populateArray(int32_t * array, const uint32_t arraySize,
 void DataGenerator::seed()
 {
     gen.seed((uint32_t) std::time(nullptr));
+}
+
+void DataGenerator::populateArraySorted(int32_t * array,
+                                        const uint32_t arraySize,
+                                        const uint32_t maxNum)
+{
+    int32_t randNum = static_cast<int32_t>(gen() % (maxNum + 1));
+
+    array[0] = randNum;
+    for(uint32_t i = 1; i < arraySize; ++i)
+    {
+        randNum += gen() % maxNum + 1;
+        array[i] = randNum;
+    }
 }

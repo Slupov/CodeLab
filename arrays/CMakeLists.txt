@@ -6,6 +6,8 @@ set(ARRAYS_ROOT_DIR "${PROJECT_ROOT_DIR}/arrays")
 
 file(GLOB _SOURCES
         "${ARRAYS_ROOT_DIR}/*.cpp"
+        "${ARRAYS_ROOT_DIR}/search/*.cpp"
+        "${ARRAYS_ROOT_DIR}/sorting/*.cpp"
         "${ARRAYS_ROOT_DIR}/sorting/*.cpp"
         "${ARRAYS_ROOT_DIR}/nbulecture/1D/*.cpp"
         "${ARRAYS_ROOT_DIR}/nbulecture/2D/*.cpp"

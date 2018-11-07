@@ -35,6 +35,8 @@ public:
 
     virtual void initRandomData() override;
 
+    virtual void initRandomDataSorted() override;
+
     virtual void solve() override;
 
     virtual void sortArray(ArraySorter * arraySorter) override;

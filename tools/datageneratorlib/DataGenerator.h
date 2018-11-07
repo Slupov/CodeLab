@@ -31,6 +31,9 @@ public:
     void populateArray(int32_t * array, const uint32_t arraySize,
                        const uint32_t maxNum);
 
+    void populateArraySorted(int32_t * array, const uint32_t arraySize,
+            const uint32_t maxNum);
+
 private:
     std::mt19937 gen;
 };
