@@ -25,7 +25,6 @@ file(GLOB _SOURCES
 add_executable(${ENGINE_PROJECT}
         ${_SOURCES})
 
-
 #adding -std=c++14 flag
 set_property(TARGET ${ENGINE_PROJECT} PROPERTY CXX_STANDARD 14)
 
@@ -39,6 +38,7 @@ endif(USE_IWYU)
 target_link_libraries(
         ${ENGINE_PROJECT}
         ${ARRAYS_LIB}
+        ${STUDIES_LIB}
         ${CMAKE_DL_LIBS})
 
 if (WIN32)

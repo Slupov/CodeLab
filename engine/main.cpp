@@ -13,38 +13,40 @@
 //Other libraries headers
 
 //Own components headers
-#include "arrays/VillagesDistances.h"
+#include <studies/algorithms/PhoneBills.h>
+#include <studies/algorithms/ShoeSizes.h>
+#include <studies/algorithms/MinK.h>
+#include "arrays/ArrayHeaders.h"
 
-#include "arrays/search/BinarySearch.h"
+#include "studies/StudiesProblem.h"
 
-#include "arrays/sorting/ParitySort.h"
-#include "arrays/sorting/BubbleSort.h"
+void runArrayProblem();
 
-#include "arrays/nbulecture/1D/ContainerWithMostWater.h"
-#include "arrays/nbulecture/1D/TwoSum.h"
-#include "arrays/nbulecture/1D/ArrayShift.h"
+void runStudiesProblem();
 
-#include "arrays/nbulecture/2D/FlippingAnImage.h"
-#include "arrays/nbulecture/2D/MatrixMultiplication.h"
-#include "arrays/nbulecture/2D/TransposeMatrix.h"
-#include "arrays/nbulecture/2D/MaxHourGlass.h"
-
-#include "arrays/nbulecture/homework/OneTwoBitCharacter.h"
-
-#include "arrays/nbulecture/homework/ToeplitzMatrix.h"
-#include "arrays/nbulecture/homework/SpiralMatrix.h"
-
-int main(int argc, char* argv[])
+int main(int argc, char * argv[])
 {
-    if(argc && argv) {}
+    if(argc && argv)
+    {
+    }
 
+//    runArrayProblem();
+    runStudiesProblem();
+
+    return 0;
+}
+
+void runArrayProblem()
+{
     ArrayProblem * arrayProblem = nullptr;
-    ArraySorter  * arraySorter  = nullptr;
+    ArraySorter * arraySorter = nullptr;
 
 //    arraySorter  = new BubbleSort();
-    arraySorter  = new ParitySort();
+    arraySorter = new ParitySort();
 
-    if (arraySorter && arrayProblem) {}
+    if(arraySorter && arrayProblem)
+    {
+    }
 
     arrayProblem = new OneDimensionArrayProblem();
 //    arrayProblem = new TwoDimensionArrayProblem();
@@ -69,7 +71,16 @@ int main(int argc, char* argv[])
 //    arrayProblem->printArray();
 
     delete arrayProblem;
-
-    return 0;
 }
 
+void runStudiesProblem()
+{
+    StudiesProblem * problem = nullptr;
+//    problem = new PhoneBills();
+//    problem = new ShoeSizes();
+    problem = new MinK();
+    problem->run();
+
+    delete problem;
+    problem = nullptr;
+}

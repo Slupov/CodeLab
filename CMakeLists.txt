@@ -32,6 +32,8 @@ include_directories(${PROJECT_ROOT_DIR})
 file(GLOB _SOURCES
         "${PROJECT_ROOT_DIR}/*.cpp"
         "${PROJECT_ROOT_DIR}/tools/datagenerator/*.cpp"
+        "${PROJECT_ROOT_DIR}/studies/*.cpp"
+        "${PROJECT_ROOT_DIR}/studies/algorithms/*.cpp"
         "${PROJECT_ROOT_DIR}/arrays/*.cpp"
         "${PROJECT_ROOT_DIR}/engine/*.cpp"
         "${PROJECT_ROOT_DIR}/dummy_test/*.cpp"
@@ -41,6 +43,10 @@ file(GLOB _SOURCES
 #define arrays project
 set(ARRAYS_LIB arrays)
 project(${ARRAYS_LIB})
+
+#define data generator library project
+set(STUDIES_LIB studies)
+project(${STUDIES_LIB})
 
 #define data generator library project
 set(DATA_GENERATOR_LIB datageneratorlib)
@@ -55,6 +61,7 @@ set(TEST dummy_test)
 project(${TEST})
 
 #reuse project flags and start other cmake files
+add_subdirectory(${PROJECT_ROOT_DIR}/studies)
 add_subdirectory(${PROJECT_ROOT_DIR}/tools/datageneratorlib)
 add_subdirectory(${PROJECT_ROOT_DIR}/tools/datagenerator)
 add_subdirectory(${PROJECT_ROOT_DIR}/arrays)

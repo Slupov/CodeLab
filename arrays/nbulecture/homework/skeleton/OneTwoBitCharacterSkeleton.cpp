@@ -73,6 +73,10 @@ void initData(int * & array, int & n)
 void solve(int * & array, int n)
 {
     /**your solution code goes here**/
+    if (array && n)
+    {
+         
+    }
 
     /*print output*/
     //change this condition to true to print "true" or false to print "false"

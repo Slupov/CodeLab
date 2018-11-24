@@ -52,6 +52,10 @@ void initData(int ** & matrix, int & n)
 void solve(int ** & matrix, int n)
 {
     /**your solution code goes here**/
+    if (matrix && n)
+    {
+         
+    }
 }
 
 int main()
