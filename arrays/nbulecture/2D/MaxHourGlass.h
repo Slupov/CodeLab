@@ -3,9 +3,10 @@
 
 /**
  *  @brief Find the biggest hour glass sum in the matrix
+ *  @url https://www.geeksforgeeks.org/maximum-sum-hour-glass-matrix
  *
  *  A B C
- *    D        ----> hour-glass
+ *    D        ---->  hour-glass
  *  E F G
  *
  *  @date 07.11.18
