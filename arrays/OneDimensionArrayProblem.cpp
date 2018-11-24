@@ -122,7 +122,7 @@ void OneDimensionArrayProblem::solve()
 //    initData();
 //    initDataSimple();
 //    initRandomData();
-    initRandomDataSorted();
+//    initRandomDataSorted();
 }
 
 void OneDimensionArrayProblem::printArray()

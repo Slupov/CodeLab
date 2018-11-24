@@ -67,6 +67,19 @@ void MatrixMultiplication::solve()
     printSolution();
 }
 
+int32_t MatrixMultiplication::getCellValue(const int32_t rowIdx,
+                                           const int32_t colIdx)
+{
+    int32_t sum = 0;
+
+    for(int32_t i = 0; i < _matrixACols; ++i)
+    {
+        sum += _matrixA[rowIdx][i] * _matrixB[i][colIdx];
+    }
+
+    return sum;
+}
+
 void MatrixMultiplication::initDataForProblem()
 {
     printf("---------------START INIT DATA---------------\n");
@@ -203,18 +216,6 @@ void MatrixMultiplication::initRandomDataForProblem()
     printf("----------------END INIT DATA----------------\n");
 }
 
-int32_t MatrixMultiplication::getCellValue(const int32_t rowIdx,
-                                           const int32_t colIdx)
-{
-    int32_t sum = 0;
-
-    for(int32_t i = 0; i < _matrixACols; ++i)
-    {
-        sum += _matrixA[rowIdx][i] * _matrixB[i][colIdx];
-    }
-
-    return sum;
-}
 
 void MatrixMultiplication::printSolution()
 {
