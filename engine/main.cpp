@@ -16,6 +16,7 @@
 #include <studies/algorithms/PhoneBills.h>
 #include <studies/algorithms/ShoeSizes.h>
 #include <studies/algorithms/MinK.h>
+#include <studies/algorithms/MinProduct.h>
 #include "arrays/ArrayHeaders.h"
 
 #include "studies/StudiesProblem.h"
@@ -78,7 +79,9 @@ void runStudiesProblem()
     StudiesProblem * problem = nullptr;
 //    problem = new PhoneBills();
 //    problem = new ShoeSizes();
-    problem = new MinK();
+//    problem = new MinK();
+    problem = new MinProduct();
+
     problem->run();
 
     delete problem;
