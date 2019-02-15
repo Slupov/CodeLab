@@ -20,7 +20,7 @@
 
 void NQueens::initData()
 {
-    std::cout << "Enter n (number of rows/cols/queens): ";
+    std::cout << "Enter n (number of row_cells/cols/queens): ";
     std::cin >> _n;
 
     _board.resize(_n);

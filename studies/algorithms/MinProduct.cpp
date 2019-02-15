@@ -20,7 +20,7 @@
 #include "MinProduct.h"
 
 //-60 -50 -40 -30 -20 -10 5
-void MinProduct::run()
+int32_t MinProduct::run()
 {
     int32_t n;
     std::cin >> n;
@@ -56,6 +56,8 @@ void MinProduct::run()
     }
 
     std::cout << minProduct;
+
+    return EXIT_SUCCESS;
 }
 
 void MinProduct::run2()

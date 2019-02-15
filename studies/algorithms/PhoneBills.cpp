@@ -19,9 +19,11 @@
 
 //Own components headers
 
-void PhoneBills::run()
+int32_t PhoneBills::run()
 {
     runVector();
+
+    return EXIT_SUCCESS;
 }
 
 void PhoneBills::runMultiset()

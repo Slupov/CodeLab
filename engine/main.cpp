@@ -13,10 +13,15 @@
 //Other libraries headers
 
 //Own components headers
-#include <studies/algorithms/PhoneBills.h>
-#include <studies/algorithms/ShoeSizes.h>
-#include <studies/algorithms/MinK.h>
-#include <studies/algorithms/MinProduct.h>
+#include "studies/mkk_algorithms/homework1/LargeFloatProblem.h"
+#include "studies/mkk_algorithms/homework1/IntegratingFunction.h"
+#include "studies/algorithms/PhoneBills.h"
+#include "studies/algorithms/ShoeSizes.h"
+#include "studies/algorithms/MinK.h"
+#include "studies/algorithms/MinProduct.h"
+
+#include "studies/mkk_algorithms/FileStreams.h"
+
 #include "arrays/ArrayHeaders.h"
 
 #include "studies/StudiesProblem.h"
@@ -25,6 +30,8 @@ void runArrayProblem();
 
 void runStudiesProblem();
 
+void runMKKProblem();
+
 int main(int argc, char * argv[])
 {
     if(argc && argv)
@@ -32,7 +39,8 @@ int main(int argc, char * argv[])
     }
 
 //    runArrayProblem();
-    runStudiesProblem();
+//    runStudiesProblem();
+    runMKKProblem();
 
     return 0;
 }
@@ -50,17 +58,6 @@ void runArrayProblem()
     }
 
     arrayProblem = new OneDimensionArrayProblem();
-//    arrayProblem = new TwoDimensionArrayProblem();
-//    arrayProblem = new ContainerWithMostWater();
-//    arrayProblem = new TwoSum();
-//    arrayProblem = new ArrayShift();
-//    arrayProblem = new MatrixMultiplication();
-//    arrayProblem = new TransposeMatrix();
-//    arrayProblem = new OneTwoBitCharacter();
-//    arrayProblem = new ToeplitzMatrix();
-//    arrayProblem = new SpiralMatrix();
-//    arrayProblem = new FlippingAnImage();
-//    arrayProblem = new MaxHourGlass();
 //    arrayProblem->solve();
 
     arrayProblem->initRandomData();
@@ -77,11 +74,18 @@ void runArrayProblem()
 void runStudiesProblem()
 {
     StudiesProblem * problem = nullptr;
-//    problem = new PhoneBills();
-//    problem = new ShoeSizes();
-//    problem = new MinK();
-    problem = new MinProduct();
 
+    delete problem;
+    problem = nullptr;
+}
+
+void runMKKProblem()
+{
+    StudiesProblem * problem = nullptr;
+
+//    problem = new FileStreams();
+//    problem = new LargeFloatProblem();
+    problem = new IntegratingFunction();
     problem->run();
 
     delete problem;

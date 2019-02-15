@@ -23,7 +23,7 @@ class RGBSorting : public StudiesProblem
     public:
         virtual ~RGBSorting() override = default;
 
-        virtual void run() override;
+        virtual int32_t run() override;
 };
 
 #endif //CODELAB_STUDIES_ALGORITHMS_RGBSORTING_H

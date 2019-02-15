@@ -89,7 +89,7 @@ void SpiralMatrix::solve()
 
 void SpiralMatrix::initData()
 {
-    printf("Enter n for rows and cols: ");
+    printf("Enter n for row_cells and cols: ");
     std::cin >> _rows;
 
     _data      = new int32_t * [_rows];

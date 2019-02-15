@@ -26,7 +26,7 @@ class StrangeSort : public StudiesProblem
     public:
         virtual ~StrangeSort() override = default;
 
-        virtual void run() override;
+        virtual int32_t run() override;
 };
 
 #endif //DUMMY_TEST_STRANGESORT_H

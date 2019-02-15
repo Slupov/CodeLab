@@ -1,11 +1,9 @@
-#ifndef DUMMY_TEST_MINPRODUCT_H
-#define DUMMY_TEST_MINPRODUCT_H
-
-
+#ifndef CODELAB_STUDIES_MKK_ALGORITHMS_ENTRYTEST_H
+#define CODELAB_STUDIES_MKK_ALGORITHMS_ENTRYTEST_H
 
 /**
  *  @brief
- *  @date 26.11.18
+ *  @date 02.02.19
  *  @author Stoyan Lupov
  */
 
@@ -18,20 +16,13 @@
 //Other libraries headers
 
 //Own components headers
-
 #include "studies/StudiesProblem.h"
 
-class MinProduct : public StudiesProblem
+class EntryTest : public StudiesProblem
 {
     public:
-        virtual ~MinProduct() override = default;
-
         virtual int32_t run() override;
-
-        void run2();
-
-        void run3();
 };
 
 
-#endif //DUMMY_TEST_MINPRODUCT_H
+#endif //CODELAB_STUDIES_MKK_ALGORITHMS_ENTRYTEST_H

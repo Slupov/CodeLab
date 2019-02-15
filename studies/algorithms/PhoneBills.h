@@ -27,7 +27,7 @@ public:
 
     virtual ~PhoneBills() = default;
 
-    virtual void run() override;
+    virtual int32_t run() override;
 
 private:
     void runVector();

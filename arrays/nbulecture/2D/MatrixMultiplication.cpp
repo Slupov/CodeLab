@@ -84,13 +84,13 @@ void MatrixMultiplication::initDataForProblem()
 {
     printf("---------------START INIT DATA---------------\n");
 
-    printf("Enter matrixA rows: ");
+    printf("Enter matrixA row_cells: ");
     std::cin >> _matrixARows;
 
     printf("Enter matrixA cols: ");
     std::cin >> _matrixACols;
 
-    printf("Enter matrixB rows: ");
+    printf("Enter matrixB row_cells: ");
     std::cin >> _matrixBRows;
 
     printf("Enter matrixB cols: ");
@@ -162,13 +162,13 @@ void MatrixMultiplication::initRandomDataForProblem()
 {
     printf("---------------START INIT DATA---------------\n");
 
-    printf("Enter matrixA rows: ");
+    printf("Enter matrixA row_cells: ");
     std::cin >> _matrixARows;
 
     printf("Enter matrixA cols: ");
     std::cin >> _matrixACols;
 
-    printf("Enter matrixB rows: ");
+    printf("Enter matrixB row_cells: ");
     std::cin >> _matrixBRows;
 
     printf("Enter matrixB cols: ");

@@ -13,7 +13,9 @@ set(STUDIES_ROOT_DIR "${PROJECT_ROOT_DIR}/studies")
 #file(GLOB...) allows for wildcard additions:
 file(GLOB _SOURCES
         "${STUDIES_ROOT_DIR}/*.cpp"
-        "${STUDIES_ROOT_DIR}/algorithms/*.cpp")
+        "${STUDIES_ROOT_DIR}/algorithms/*.cpp"
+        "${STUDIES_ROOT_DIR}/mkk_algorithms/*.cpp"
+        "${STUDIES_ROOT_DIR}/mkk_algorithms/homework1/*.cpp")
 
 add_library(${STUDIES_LIB} STATIC
         ${_SOURCES})

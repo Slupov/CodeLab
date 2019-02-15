@@ -20,7 +20,7 @@
 #include "UnionAddition.h"
 
 //CHECK FOR DUPLICATES
-void UnionAddition::run()
+int32_t UnionAddition::run()
 {
     int32_t m;
     int32_t n;
@@ -60,6 +60,8 @@ void UnionAddition::run()
     {
         std::cout << "Empty";
     }
+
+    return EXIT_SUCCESS;
 }
 
 void UnionAddition::run2()

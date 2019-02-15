@@ -60,7 +60,7 @@ void DataGenerator::populateArraySorted(int32_t * array,
     array[0] = randNum;
     for(uint32_t i = 1; i < arraySize; ++i)
     {
-        randNum += gen() % maxNum + 1;
+        randNum += static_cast<int32_t>(gen() % maxNum + 1);
         array[i] = randNum;
     }
 }

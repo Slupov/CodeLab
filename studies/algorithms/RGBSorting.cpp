@@ -18,7 +18,7 @@
 
 //Own components headers
 
-void RGBSorting::run()
+int32_t RGBSorting::run()
 {
     std::unordered_map<int32_t, char> colorPriority
     {
@@ -83,4 +83,6 @@ void RGBSorting::run()
         std::cout << std::endl;
         ++it;
     }
+
+    return EXIT_SUCCESS;
 }

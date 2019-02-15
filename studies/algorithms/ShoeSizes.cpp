@@ -18,7 +18,7 @@
 //Own components headers
 #include "ShoeSizes.h"
 
-void ShoeSizes::run()
+int32_t ShoeSizes::run()
 {
     int32_t n = 0;
     std::cin >> n;
@@ -58,4 +58,6 @@ void ShoeSizes::run()
         std::cout << it->first << " " << it->second << std::endl;
         ++it;
     }
+
+    return EXIT_SUCCESS;
 }

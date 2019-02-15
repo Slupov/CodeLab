@@ -119,7 +119,7 @@ void TwoDimensionArrayProblem::initDataSimple()
 
     int32_t cols = 0;
 
-    printf("Enter rows: ");
+    printf("Enter row_cells: ");
     std::cin >> _rows;
 
     printf("Enter cols: ");
@@ -188,7 +188,7 @@ void TwoDimensionArrayProblem::initRandomData()
     int32_t rows = 0;
     int32_t cols = 0;
 
-    printf("Enter rows: ");
+    printf("Enter row_cells: ");
     std::cin >> rows;
     _rows = rows;
 
@@ -221,7 +221,7 @@ void TwoDimensionArrayProblem::initRandomDataSorted()
     int32_t rows = 0;
     int32_t cols = 0;
 
-    printf("Enter rows: ");
+    printf("Enter row_cells: ");
     std::cin >> rows;
     _rows = rows;
 

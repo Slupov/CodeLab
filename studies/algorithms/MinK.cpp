@@ -17,7 +17,7 @@
 
 //Own components headers
 
-void MinK::run()
+int32_t MinK::run()
 {
     int32_t n;
     int32_t k;
@@ -37,4 +37,6 @@ void MinK::run()
 
     std::sort(v.begin(), v.end());
     std::cout << v[k-1];
+
+    return EXIT_SUCCESS;
 }

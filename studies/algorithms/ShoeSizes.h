@@ -23,7 +23,7 @@ class ShoeSizes : public StudiesProblem
 public:
     virtual ~ShoeSizes() override = default;
 
-    virtual void run() override;
+    virtual int32_t run() override;
 };
 
 

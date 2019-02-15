@@ -25,7 +25,7 @@ class UnionAddition : public StudiesProblem
     public:
         virtual ~UnionAddition() override = default;
 
-        virtual void run() override;
+        virtual int32_t run() override;
 
         void run2();
 };

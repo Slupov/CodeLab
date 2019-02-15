@@ -23,7 +23,7 @@ class MinK : public StudiesProblem
     public:
         virtual ~MinK() override = default;
 
-        virtual void run() override;
+        virtual int32_t run() override;
 };
 
 

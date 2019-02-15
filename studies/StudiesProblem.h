@@ -1,8 +1,6 @@
 #ifndef CODELAB_STUDIES_ALGORITHMS_STUDIESPROBLEM_H
 #define CODELAB_STUDIES_ALGORITHMS_STUDIESPROBLEM_H
 
-
-
 /**
  *  @brief
  *  @date 24.11.18
@@ -26,7 +24,10 @@ class StudiesProblem
 public:
     virtual ~StudiesProblem() = default;
 
-    virtual void run() = 0;
+    /**
+     * @brief Driver function for testing/running the given problem
+     * **/
+    virtual int32_t run() = 0;
 };
 
 

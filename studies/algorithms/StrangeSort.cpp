@@ -17,7 +17,7 @@
 //Own components headers
 #include "StrangeSort.h"
 
-void StrangeSort::run()
+int32_t StrangeSort::run()
 {
     int32_t n;
     std::cin >> n;
@@ -63,4 +63,6 @@ void StrangeSort::run()
     {
         std::cout << v[i] << " ";
     }
+
+    return EXIT_SUCCESS;
 }

@@ -1,11 +1,10 @@
-#ifndef DUMMY_TEST_MINPRODUCT_H
-#define DUMMY_TEST_MINPRODUCT_H
-
+#ifndef CODELAB_STUDIES_MKK_ALGORITHMS_HOMEWORK1_LARGEFLOATPROBLEM_H
+#define CODELAB_STUDIES_MKK_ALGORITHMS_HOMEWORK1_LARGEFLOATPROBLEM_H
 
 
 /**
  *  @brief
- *  @date 26.11.18
+ *  @date 13.02.19
  *  @author Stoyan Lupov
  */
 
@@ -21,17 +20,10 @@
 
 #include "studies/StudiesProblem.h"
 
-class MinProduct : public StudiesProblem
+class LargeFloatProblem : public StudiesProblem
 {
     public:
-        virtual ~MinProduct() override = default;
-
         virtual int32_t run() override;
-
-        void run2();
-
-        void run3();
 };
 
-
-#endif //DUMMY_TEST_MINPRODUCT_H
+#endif //DUMMY_TEST_LARGEFLOATPROBLEM_H
