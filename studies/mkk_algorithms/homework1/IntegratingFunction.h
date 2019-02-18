@@ -28,7 +28,8 @@ class IntegratingFunction : public StudiesProblem
 
     private:
         void integrateFunction(Range * inRanges, double * outResults,
-                const uint32_t inputCount, double (* func)(double));
+                uint32_t * outIntegrationSteps, const uint32_t inputCount,
+                double (* func)(double));
 };
 
 #endif //CODELAB_STUDIES_MKK_ALGORITHMS_HOMEWORK1_INTEGRATINGFUNCTION_H

@@ -85,7 +85,8 @@ void runMKKProblem()
 
 //    problem = new FileStreams();
 //    problem = new LargeFloatProblem();
-    problem = new IntegratingFunction();
+//    problem = new IntegratingFunction();
+    problem = new LargeFloatProblem();
     problem->run();
 
     delete problem;

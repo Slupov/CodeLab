@@ -57,18 +57,21 @@ int32_t IntegratingFunction::run()
     };
 
     double integrationResults[RANGES_CNT] = {0,};
+    uint32_t integrationSteps[RANGES_CNT] = {0,};
 
     //print results
     for(uint32_t i = 0; i < TESTING_FUNCTIONS; ++i)
     {
-        integrateFunction(ranges, integrationResults, RANGES_CNT, FUNCS[i]);
+        integrateFunction(ranges, integrationResults, integrationSteps,
+                          RANGES_CNT, FUNCS[i]);
 
         std::cout << FUNC_NAMES[i] << std::endl;
 
         for(uint32_t j = 0; j < RANGES_CNT; ++j)
         {
-            std::cout << "For [" << ranges[j].a << ", " << ranges[j].b
-                      << "] = " << integrationResults[j] << std::endl;
+            std::cout << "For [" << ranges[j].a << ", "   << ranges[j].b
+                      << "] = "  << integrationResults[j] << " with "
+                      << integrationSteps[j] << " integration steps.\n";
         }
 
         std::cout << std::endl;
@@ -79,7 +82,8 @@ int32_t IntegratingFunction::run()
 
 
 void IntegratingFunction::integrateFunction(Range * inRanges,
-        double * outResults, const uint32_t inputCount, double (* func)(double))
+        double * outResults, uint32_t * outIntegrationSteps,
+        const uint32_t inputCount, double (* func)(double))
 {
     FunctionIntegrator integrator;
     if (EXIT_SUCCESS != integrator.init(inRanges, inputCount, func))
@@ -90,5 +94,6 @@ void IntegratingFunction::integrateFunction(Range * inRanges,
     for(uint32_t i = 0; i < inputCount; ++i)
     {
         outResults[i] = integrator.integrate(i);
+        outIntegrationSteps[i] = integrator.getIntegrationSteps();
     }
 }

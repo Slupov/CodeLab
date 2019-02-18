@@ -21,6 +21,7 @@
 #define EPS 0.0001
 
 FunctionIntegrator::FunctionIntegrator() : _rangesCount(UINT32_MAX),
+                                           _integrationSteps(UINT32_MAX),
                                            _func(nullptr)
 {
 
@@ -102,16 +103,17 @@ int32_t FunctionIntegrator::init(Range * ranges,
 double FunctionIntegrator::integrate(const uint32_t rangeIdx)
 {
     const Range RANGE = _ranges[rangeIdx];
+    _integrationSteps = calculateSteps(RANGE.a, RANGE.b);
 
-    const uint32_t N = calculateSteps(RANGE.a, RANGE.b);
-
-    double step = (RANGE.b - RANGE.a) / N;  // width of each small rectangle
-    double area = 0.0;          // signed area
+    // width of each small rectangle
+    double step = (RANGE.b - RANGE.a) / _integrationSteps;
+    // signed area
+    double area = 0.0;
 
     double x = 0;
     double height = 0;
 
-    for (uint32_t i = 0; i < N; i ++)
+    for (uint32_t i = 0; i < _integrationSteps; i ++)
     {
         // sum up each small rectangle
         x = RANGE.a + (i + 0.5) * step;
@@ -140,11 +142,17 @@ uint32_t FunctionIntegrator::calculateSteps(const double a, const double b)
         return returnValue;
     }
 
-    if (RANGE_RATIO)
+    //TODO Stoyan Lupov 15-02-2019 I perfectly know this is a "shano" way of
+    //doing it but cannot come up with anything else at the moment. Change when
+    //not drunk.
+    if (RANGE_RATIO >= 3.0)
     {
-
+        returnValue = 30;
+    }
+    else
+    {
+        returnValue = static_cast<uint32_t>(RANGE_RATIO * 10);
     }
 
-    //TODO Remove hardcoded step
-    return 10;
+    return returnValue;
 }

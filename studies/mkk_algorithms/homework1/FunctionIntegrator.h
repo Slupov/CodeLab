@@ -33,10 +33,15 @@ class FunctionIntegrator
                      double (* func)(double));
 
         /**
+         * @brief Integrates a function by using the Left Riemann sum algorithm
          * @param rangeIdx - the index of the range coordinates pairs
          * **/
         double integrate(const uint32_t rangeIdx);
 
+        inline uint32_t getIntegrationSteps()
+        {
+            return _integrationSteps;
+        }
 
     private:
         /**
@@ -46,6 +51,8 @@ class FunctionIntegrator
         uint32_t calculateSteps(const double a, const double b);
 
         uint32_t _rangesCount;
+        uint32_t _integrationSteps;
+
         Range *  _ranges;
 
         double (* _func)(double a);
