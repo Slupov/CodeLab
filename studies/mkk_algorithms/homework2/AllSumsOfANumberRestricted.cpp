@@ -15,3 +15,90 @@
 //Own components headers
 
 #include "AllSumsOfANumberRestricted.h"
+
+int32_t AllSumsOfANumberRestricted::run()
+{
+    int32_t err = EXIT_SUCCESS;
+
+    uint32_t n;
+    uint32_t k;
+
+    std::cin >> n >> k;
+
+    //stores coins (addends to use)
+    uint32_t * coins = new uint32_t[k];
+    uint32_t * counts = new uint32_t[k];
+
+    std::cout << "NOTE: Coins must be input in descending order "
+                 "(eg.:20, 10, 5, 2)";
+
+    for(uint32_t i = 0; i < k; ++i)
+    {
+        std::cin >> coins[i];
+        counts[i] = 0;
+    }
+
+    printCombination(coins, k, counts, 0, n);
+
+    delete[] coins;
+    coins = nullptr;
+
+    return err;
+}
+
+void print(uint32_t * coins, uint32_t * counts, uint32_t coinsCount)
+{
+    //we have processed them all
+    for(uint32_t i = 0; i < coinsCount; ++i)
+    {
+        for(uint32_t j = 0; j < counts[i]; ++j)
+        {
+            std::cout << coins[i];
+            std::cout << " + ";
+        }
+    }
+
+    std::cout << "\n";
+}
+
+void AllSumsOfANumberRestricted::printCombination(
+        uint32_t * coins, uint32_t coinsCount, uint32_t * counts,
+        uint32_t startIdx, uint32_t totalAmount)
+{
+    //check if we have processed all coins
+    if (startIdx >= coinsCount)
+    {
+        print(coins, counts, coinsCount);
+        return;
+    }
+
+    /** if startIdx is the last one, we need to check if it can be divided by
+      * the smallest coin
+      * a) if so => good combination
+      * b) otherwise => impossible combination => discarded **/
+    if (startIdx == coinsCount - 1)
+    {
+         if (totalAmount % coins[startIdx] == 0) //good combination
+         {
+            //set the counts of coins at start index
+            counts[startIdx] = totalAmount / coins[startIdx];
+
+            //proceed to recursive call
+            printCombination(coins, coinsCount, counts, startIdx + 1, 0);
+         }
+    }
+    else //we still have option to choose 0-N larger coins
+    {
+        for(uint32_t i = 0; i <= totalAmount / coins[startIdx]; ++i)
+        {
+            //for every iteration we choose an arbitrary number of larger coins
+            //and proceed next
+            counts[startIdx] = i;
+
+            //update the remaining amount and startIdx
+            printCombination(coins, coinsCount, counts, startIdx + 1,
+                             totalAmount - coins[startIdx] * i);
+
+        }
+    }
+}

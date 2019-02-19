@@ -69,7 +69,10 @@ void AllSumsOfANumber::calculateSum(int32_t n, int32_t * storage, int32_t level)
 
     for(int32_t i = first; i <= LOOP_END; i++)
     {
+        //replace last
         storage[level] = i;
+
+        //set next level numbers
         calculateSum(n - i, storage, level + 1);
     }
 }
