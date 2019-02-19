@@ -49,10 +49,7 @@ class LargeFloat
          *  printing its most significant bit first.
          *  Used for debug purposes only.
          *  **/
-        void printBits(uint8_t *bytePtr, const uint32_t bytes);
-
-        void reverseBits(uint8_t * startByte, const uint32_t bytes,
-                             uint8_t * outBytes);
+        void printBits(uint8_t *bytePtr, const uint32_t bytes) const;
 
         /** reverses bits in byte. First the left four bits are swapped with the
          * right four bits. Then all adjacent pairs are swapped and then all
@@ -66,7 +63,8 @@ class LargeFloat
             return b;
         }
 
-        inline void printDoubleBitsLegend(const int8_t shiftedOffset);
+        inline void printDoubleBitsLegend(const int8_t shiftedOffset,
+                                          const uint32_t bitsCount);
 
         /** normally would not use bit fields since they are out of the C++
             standard, generally an array of 6 uint8_t's would be a great way to

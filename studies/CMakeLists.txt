@@ -15,7 +15,11 @@ file(GLOB _SOURCES
         "${STUDIES_ROOT_DIR}/*.cpp"
         "${STUDIES_ROOT_DIR}/algorithms/*.cpp"
         "${STUDIES_ROOT_DIR}/mkk_algorithms/*.cpp"
-        "${STUDIES_ROOT_DIR}/mkk_algorithms/homework1/*.cpp")
+        "${STUDIES_ROOT_DIR}/mkk_algorithms/homework1/*.cpp"
+        "${STUDIES_ROOT_DIR}/mkk_algorithms/homework2/*.cpp"
+        "${STUDIES_ROOT_DIR}/mkk_algorithms/homework3/*.cpp"
+        "${STUDIES_ROOT_DIR}/mkk_algorithms/homework4/*.cpp"
+        "${STUDIES_ROOT_DIR}/mkk_algorithms/homework5/*.cpp")
 
 add_library(${STUDIES_LIB} STATIC
         ${_SOURCES})
