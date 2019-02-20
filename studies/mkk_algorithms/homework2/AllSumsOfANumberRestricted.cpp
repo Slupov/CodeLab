@@ -46,7 +46,10 @@ int32_t AllSumsOfANumberRestricted::run()
     printCombination(coins, k, counts, 0, n);
 
     delete[] coins;
+    delete[] counts;
+    
     coins = nullptr;
+    counts = nullptr;
 
     return err;
 }
