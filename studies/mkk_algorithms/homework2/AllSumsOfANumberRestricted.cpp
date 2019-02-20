@@ -5,6 +5,8 @@
  */
 
 //Corresponding header
+#include <algorithm>
+#include "AllSumsOfANumberRestricted.h"
 
 //C system headers
 
@@ -14,7 +16,10 @@
 
 //Own components headers
 
-#include "AllSumsOfANumberRestricted.h"
+
+bool comp(int i, int j) {
+	return i > j;
+}
 
 int32_t AllSumsOfANumberRestricted::run()
 {
@@ -29,14 +34,14 @@ int32_t AllSumsOfANumberRestricted::run()
     uint32_t * coins = new uint32_t[k];
     uint32_t * counts = new uint32_t[k];
 
-    std::cout << "NOTE: Coins must be input in descending order "
-                 "(eg.:20, 10, 5, 2)";
-
     for(uint32_t i = 0; i < k; ++i)
     {
         std::cin >> coins[i];
         counts[i] = 0;
     }
+
+    //sort coins in descending order
+    std::sort(coins, coins + k, comp);
 
     printCombination(coins, k, counts, 0, n);
 
@@ -48,13 +53,28 @@ int32_t AllSumsOfANumberRestricted::run()
 
 void print(uint32_t * coins, uint32_t * counts, uint32_t coinsCount)
 {
+    uint32_t leftToPrint = 0;
+
+    //get total number of coins
+    for(uint32_t i = 0; i < coinsCount; ++i)
+    {
+        leftToPrint += counts[i];
+    }
+
+    --leftToPrint;
+
     //we have processed them all
     for(uint32_t i = 0; i < coinsCount; ++i)
     {
         for(uint32_t j = 0; j < counts[i]; ++j)
         {
             std::cout << coins[i];
-            std::cout << " + ";
+
+            if (leftToPrint > 0)
+            {
+                std::cout << " + ";
+                --leftToPrint;
+            }
         }
     }
 
