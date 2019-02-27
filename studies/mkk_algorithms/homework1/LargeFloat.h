@@ -23,7 +23,7 @@ class LargeFloat;
 
 #define SIGN_BITS 1
 #define EXPONENT_BITS 7
-#define MANTISSA_BITS 7
+#define MANTISSA_BITS 40
 
 #pragma pack(2)
 class LargeFloat
@@ -41,9 +41,9 @@ class LargeFloat
 
     private:
 
-        uint8_t  extractSign(const double number);
-        uint8_t  extractExp(const double number);
-        uint64_t extractMantissa(const double number);
+        uint8_t  extractSign(const uint64_t reversed);
+        uint8_t  extractExp(const uint64_t reversed);
+        uint64_t extractMantissa(const uint64_t reversed);
 
         /** Prints all bits in a given space of bytes. Starts every byte with
          *  printing its most significant bit first.
@@ -62,6 +62,8 @@ class LargeFloat
 
             return b;
         }
+
+        uint64_t reverseBits(const uint64_t bits);
 
         inline void printDoubleBitsLegend(const int8_t shiftedOffset,
                                           const uint32_t bitsCount);

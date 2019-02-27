@@ -15,6 +15,7 @@
 //Own components headers
 #include <studies/mkk_algorithms/homework2/AllSumsOfANumber.h>
 #include <studies/mkk_algorithms/homework2/AllSumsOfANumberRestricted.h>
+#include <studies/mkk_algorithms/homework1/DecodeStringBonus.h>
 #include "studies/mkk_algorithms/homework1/LargeFloatProblem.h"
 #include "studies/mkk_algorithms/homework1/IntegratingFunction.h"
 #include "studies/algorithms/PhoneBills.h"
@@ -88,9 +89,10 @@ void runMKKProblem()
 //    problem = new FileStreams();
 //    problem = new LargeFloatProblem();
 //    problem = new IntegratingFunction();
-//    problem = new LargeFloatProblem();
+    problem = new LargeFloatProblem();
 //    problem = new AllSumsOfANumber();
-    problem = new AllSumsOfANumberRestricted();
+//    problem = new AllSumsOfANumberRestricted();
+//    problem = new DecodeStringBonus();
     problem->run();
 
     delete problem;

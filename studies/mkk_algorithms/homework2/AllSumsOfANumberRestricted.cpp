@@ -5,17 +5,16 @@
  */
 
 //Corresponding header
-#include <algorithm>
 #include "AllSumsOfANumberRestricted.h"
 
 //C system headers
 
 //C++ system headers
+#include <algorithm>
 
 //Other libraries headers
 
 //Own components headers
-
 
 bool comp(int i, int j) {
 	return i > j;
@@ -47,7 +46,7 @@ int32_t AllSumsOfANumberRestricted::run()
 
     delete[] coins;
     delete[] counts;
-    
+
     coins = nullptr;
     counts = nullptr;
 

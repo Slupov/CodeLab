@@ -20,7 +20,7 @@ int32_t LargeFloatProblem::run()
 {
     int32_t err = EXIT_SUCCESS;
 
-    LargeFloat f(-13.0);
+    LargeFloat f(-1.0);
     std::cout << f << std::endl;
 
     return err;

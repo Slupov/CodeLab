@@ -1,14 +1,16 @@
-///**
-// *  @brief
-// *  @date 13.02.19
-// *  @author Stoyan Lupov
-// */
+/**
+ *  @brief
+ *  @date 13.02.19
+ *  @author Stoyan Lupov
+ */
 
 //Corresponding header
 
 //C system headers
 
 //C++ system headers
+#include <bitset>
+#include <iostream>
 
 //Other libraries headers
 
@@ -18,18 +20,21 @@
 
 /**
  * NOTE!: Exponent is 7 bits so the exponent bias (needed for negative
- * exponents must be 0111 1111 / 2 -> 127/2 -> 63
- * So the exponent range is [-64; 63]
+ * exponents must be 0111 1111 / 2 -> 127/2 -> 64
+ * So the exponent range is [-63; 63]
  * **/
-#define EXP_BIAS 63
+#define EXP_BIAS 64
 #define DOUBLE_EXP_BIAS 1023
 
 #define DOUBLE_SIGN_BITS 1
 #define DOUBLE_EXPONENT_BITS 11
+#define DOUBLE_MANTISSA_BITS 52
 
 #define BITS_IN_BYTE 8
 
-#define DEBUG_LOGS 0
+#define DEBUG_LOGS 1
+
+/** Test results at http://www.binaryconvert.com/convert_double.html **/
 
 LargeFloat::LargeFloat()
 {
@@ -43,31 +48,64 @@ LargeFloat::LargeFloat(const double initValue)
     uint8_t *bytePtr  = (uint8_t *)&initValue;
     uint32_t bytesCnt = sizeof(double);
 
+    /** we need the bits in the input double to be reversed for a simpler
+      * modification **/
+    uint64_t * bits = (uint64_t *)&initValue;
+    uint64_t reversed = reverseBits(*bits);
+
 #if DEBUG_LOGS
     printf("Default constructor value: \n");
     printBits(bytePtr, bytesCnt * BITS_IN_BYTE);
+
+    std::cout << "\n";
+
+    printf("REVERSED constructor value: \n");
+    printBits((uint8_t*)&reversed, bytesCnt * BITS_IN_BYTE);
     printDoubleBitsLegend(0, bytesCnt * BITS_IN_BYTE);
 #endif//DEBUG_LOGS
 
     //double 1 bit sign
-    _sign = extractSign(initValue);
+    _sign = extractSign(reversed);
 
     //double 11 bits exponent > my exponent bits 7
-    _exponent = extractExp(initValue);
+    _exponent = extractExp(reversed);
 
     //double 52 bits mantissa > my mantissa bits 40
-    _mantissa = extractMantissa(initValue);
+    _mantissa = extractMantissa(reversed);
 }
 
 LargeFloat LargeFloat::operator+(const LargeFloat & b)
 {
-    //TODO Left to implement later.
+    /** use the smaller exponent **/
+    _exponent = _exponent < b._exponent ? _exponent : b._exponent;
+
+    /** add both mantissas **/
+    uint64_t mantissa = _mantissa + b._mantissa;
+
+    //unset 52 - 40 = 12 bits
+    uint64_t mask = (1ul << 63); //0000 0000 ... ... ... ... ... ... 0000 0001
+
+    const uint32_t LOOP_END = static_cast<uint32_t>(
+            (sizeof(uint64_t) * BITS_IN_BYTE) - MANTISSA_BITS);
+
+    //unset obsolete bits in the beggining
+    for(uint32_t i = 0; i < LOOP_END; ++i)
+    {
+        mantissa = (mantissa & ~mask);
+        mask >>= 1;
+    }
+
+    _mantissa = mantissa;
+
+    /** determine sign **/
+    //TODO Implement later (how to determine sign?)
+
     return *this;
 }
 
 std::ostream & operator<<(std::ostream & ostream, const LargeFloat & value)
 {
-    //TODO Left to implement later.
+    //TODO Left to implement later. Print binary representantion for now
     if (1 == value._sign)
     {
         ostream << "-";
@@ -77,134 +115,75 @@ std::ostream & operator<<(std::ostream & ostream, const LargeFloat & value)
     uint64_t mantissa = value._mantissa;
     value.printBits((uint8_t*)&mantissa, MANTISSA_BITS);
 
-    //in range {-63; 64}
-//    int8_t expInt = 0;
-//
-//    if (value._exponent < EXP_BIAS)
-//    {
-//        expInt = static_cast<int8_t>(value._exponent - EXP_BIAS);
-//    }
-//    else
-//    {
-//        expInt = static_cast<int8_t>(value._exponent + EXP_BIAS);
-//    }
-
-    ostream << "x 2^" << std::to_string(value._exponent);
+    ostream << "x 2^" << std::to_string(value._exponent - EXP_BIAS);
 
     return ostream;
 }
 
-uint8_t LargeFloat::extractSign(const double number)
+uint8_t LargeFloat::extractSign(const uint64_t reversed)
 {
     //return 1 if negative, 0 if positive
-    uint8_t *bytePtr  = (uint8_t *)&number;
-    uint32_t bytesCnt = sizeof(double);
+    uint8_t *bytePtr  = (uint8_t *)&reversed;
+    uint32_t bytesCnt = sizeof(reversed);
 
-    //last bit is for the sign
-    uint8_t result = bytePtr[bytesCnt - 1];
-    result >>= BITS_IN_BYTE - 1;
-    result = static_cast<uint8_t>(result & 1);
-
-    return result;
-}
-
-uint8_t LargeFloat::extractExp(const double number)
-{
-    //TODO Stoyan Lupov Not sure if that's how to "cut" the exponent from the
-    //bigger double exponent. Need to take a second look at this later.
-    //Spoiler: That's probably not the way it should be done :)
-
-#if DEBUG_LOGS
-    printf("\n...EXTRACTING EXPONENT... \n");
-#endif//DEBUG_LOGS
-
-    //double's exponent is the 11 bits before the least significant bit (sign)
-    //decode the IEE754 double exponent
-
-    //double 11 bits exponent > my exponent bits 7
-
-    int16_t *shortPtr  = (int16_t *)&number;
-    int16_t decodedExponent = shortPtr[3];
-
-#if DEBUG_LOGS
-    printBits((uint8_t*)&decodedExponent, sizeof(int16_t) * BITS_IN_BYTE);
-    printDoubleBitsLegend(0, sizeof(int16_t) * BITS_IN_BYTE);
-#endif//DEBUG_LOGS
-
-    //remove the sign bit
-    decodedExponent <<= 1;
-
-#if DEBUG_LOGS
-    printBits((uint8_t*)&decodedExponent, sizeof(int16_t) * BITS_IN_BYTE);
-    printDoubleBitsLegend(1, sizeof(int16_t) * BITS_IN_BYTE);
-#endif//DEBUG_LOGS
-
-    //unset obsolete 4 bits in the beggining
-    int16_t unsetter = 0;
-    for(uint32_t i = 0; i < 5; ++i)
-    {
-        unsetter = static_cast<int16_t>(~(1 << (sizeof(int16_t) - 2 + i)));
-        decodedExponent &= unsetter;
-    }
-
-#if DEBUG_LOGS
-    printBits((uint8_t*)&decodedExponent, sizeof(int16_t) * BITS_IN_BYTE);
-    printDoubleBitsLegend(1, sizeof(int16_t) * BITS_IN_BYTE);
-#endif//DEBUG_LOGS
-
-    uint8_t result = 0;
-
-    if (decodedExponent <= EXP_BIAS)
-    {
-        result = static_cast<uint8_t>(decodedExponent);
-    }
-    else
-    {
-        //set to max value of our exponent
-        result = 2 * EXP_BIAS;
-    }
+    //first bit is for the sign
+    uint8_t result = bytePtr[0];
+    result &= 1;
 
     return result;
 }
 
-uint64_t LargeFloat::extractMantissa(const double number)
+uint8_t LargeFloat::extractExp(const uint64_t reversed)
 {
-#if DEBUG_LOGS
-    printf("\n...EXTRACTING MANTISSA... \n");
-#endif//DEBUG_LOGS
+    // we dont need the sign bit
+    uint64_t bits = reversed >> 1;
 
-    const uint32_t DOUBLE_BITS = sizeof(double) * BITS_IN_BYTE;
-    //double 52 bits mantissa > my mantissa bits 40
-    uint64_t *longPtr  = (uint64_t *)&number;
-    uint64_t result = *longPtr;
+    uint16_t* shortPtr = (uint16_t*)&bits;
+    uint16_t exponent = *shortPtr;
 
-    //unset obsolete 12 bits after the mantissa
-    uint64_t unsetter = 0;
-    uint64_t unsetterValue = 1;
+    //get next 11 bits
+    uint16_t mask = (1 << 15); //0000 0000 0000 0001
 
-    uint32_t loopEnd = DOUBLE_SIGN_BITS + DOUBLE_EXPONENT_BITS;
+    const uint32_t LOOP_END = static_cast<uint32_t>(
+            (sizeof(uint16_t) * BITS_IN_BYTE) - DOUBLE_EXPONENT_BITS);
 
-    for(uint32_t i = 0; i < loopEnd; ++i)
+    //unset obsolete bits in the beggining
+    for(uint32_t i = 0; i < LOOP_END; ++i)
     {
-        unsetter = static_cast<uint64_t>(
-                ~(unsetterValue << (DOUBLE_BITS - 1 - i)));
-
-        result &= unsetter;
+        exponent = (exponent & ~mask);
+        mask >>= 1;
     }
 
-#if DEBUG_LOGS
-    printBits((uint8_t*)&result, DOUBLE_BITS);
-    printDoubleBitsLegend(0, DOUBLE_BITS);
-#endif//DEBUG_LOGS
+    return static_cast<uint8_t>(exponent);
+}
 
-    return result;
+uint64_t LargeFloat::extractMantissa(const uint64_t reversed)
+{
+    //double mantissa is 52 bits
+    //we dont need the first 12 bits (1 sign + 11 exponent)
+    uint64_t bits = reversed >> 12;
+
+    //unset 52 - 40 = 12 bits
+    uint64_t mask = (1ul << 63); //0000 0000 ... ... ... ... ... ... 0000 0001
+
+    const uint32_t LOOP_END = static_cast<uint32_t>(
+            (sizeof(uint64_t) * BITS_IN_BYTE) - MANTISSA_BITS);
+
+    //unset obsolete bits in the beggining
+    for(uint32_t i = 0; i < LOOP_END; ++i)
+    {
+        bits = (bits & ~mask);
+        mask >>= 1;
+    }
+
+    return bits;
 }
 
 void LargeFloat::printBits(uint8_t *bytePtr, const uint32_t bitsCount) const
 {
-    uint32_t bytes = bitsCount / 8;
+    uint32_t bytes = bitsCount / BITS_IN_BYTE;
     
-    if (bitsCount % 8 != 0)
+    if (bitsCount % BITS_IN_BYTE != 0)
     {
         ++bytes;
     }
@@ -245,8 +224,8 @@ void LargeFloat::printDoubleBitsLegend(const int8_t shiftedOffset,
     uint32_t loopEnd = 0;
     uint8_t packByte = 0;
 
-    std::string MSG = "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
-                      "MMMMMMMMMMMMEEEEEEEEEEES";
+    std::string MSG = "SEEEEEEEEEEEMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
+                      "MMMMMMMMMMMM";
 
     MSG = MSG.substr(MSG.size() - bitsCount, bitsCount);
 
@@ -328,4 +307,18 @@ void LargeFloat::printDoubleBitsLegend(const int8_t shiftedOffset,
     }
 
     printf("\n");
+}
+
+uint64_t LargeFloat::reverseBits(const uint64_t input) // input bits to be reversed
+{
+    const int32_t bits = sizeof(uint64_t) * BITS_IN_BYTE;
+    std::bitset<bits> inputBits = input;
+    std::bitset<bits> reversedBits = 0;
+
+    for(int32_t i = bits - 1; i >= 0; --i)
+    {
+        reversedBits[bits - i - 1] = inputBits[i];
+    }
+
+    return reversedBits.to_ullong();
 }
