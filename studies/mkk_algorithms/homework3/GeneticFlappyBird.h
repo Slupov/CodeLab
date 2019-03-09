@@ -12,12 +12,27 @@
 //C system headers
 
 //C++ system headers
+#include <vector>
 
 //Other libraries headers
 
 //Own components headers
 #include "studies/StudiesProblem.h"
-#include "Flappy.h"
+#include "flappy.h"
+
+#define FLAPPY_POPULATION_SIZE 50
+#define THREADS_COUNT 15
+
+//Forward declarations
+class ThreadPool;
+
+struct Genome
+{
+    public:
+        std::vector<bool> genes;
+
+        uint32_t fitness = 0;
+};
 
 class GeneticFlappyBird : public StudiesProblem
 {
@@ -26,21 +41,44 @@ class GeneticFlappyBird : public StudiesProblem
 
         virtual int32_t run() override;
 
+        inline void setLevel(const LevelDescription & level)
+        {
+            _level = level;
+        }
+
+        inline std::vector<bool> getSolution()
+        {
+            return _population[0].genes;
+        }
+
     private:
 
         /** Initializes the first generation of the genetic algorithm.
          *  Must be called only once. **/
         void initPopulation();
 
-        void deinitPopulation();
-
         void initLevel();
+
+        void calculateFitness();
+
+        void sortPopulation();
+
+        /// Multithread merge sort
+        void mergesort(Genome * array, uint32_t low, uint32_t high, ThreadPool * threadPool);
+
+        void merge(Genome * array, uint32_t low, uint32_t mid, uint32_t high);
+
+        /// GENOMES SPECIFIC FUNCTIONS
+
+        void calculateGenomeFitness(const uint32_t idx);
 
         LevelDescription _level;
 
+        uint32_t _levelFrames;
+
         /** A 2D array whose elements are current generation's individuals.
          *  Each individual is an array of decisions**/
-        bool ** _population;
+        Genome _population [FLAPPY_POPULATION_SIZE];
 };
 
 

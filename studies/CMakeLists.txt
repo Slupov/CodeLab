@@ -33,4 +33,4 @@ if(USE_IWYU)
             ${IWYU_BINARY_PATH})
 endif(USE_IWYU)
 
-target_link_libraries(${STUDIES_LIB} -static-libgcc -static-libstdc++)
+target_link_libraries(${STUDIES_LIB} -static-libgcc -static-libstdc++ -lpthread)

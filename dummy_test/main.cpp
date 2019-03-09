@@ -11,6 +11,7 @@
 //C system headers
 
 //C++ system headers
+#include <vector>
 
 //Other libraries headers
 
@@ -20,14 +21,34 @@ int32_t main()
 {
     int32_t returnCode = EXIT_SUCCESS;
 
-//    StudiesProblem * problem;
-//    problem = new LargeFloatProblem();
-//    problem = new IntegratingFunction();
+    struct Point
+    {
+        int32_t x;
+        int32_t y;
 
-//    returnCode = problem->run();
+        std::vector<bool> genes;
+    };
 
-//    delete problem;
-//    problem = nullptr;
+    Point arr [3];
+
+    arr[0].x = 0;
+    arr[0].y = 0;
+    arr[0].genes.resize(3, false);
+
+    arr[1].x = 1;
+    arr[1].y = 1;
+    arr[1].genes.resize(3, true);
+
+    arr[2].x = 2;
+    arr[2].y = 2;
+    arr[2].genes.resize(3, true);
+
+
+    arr[2] = arr[0];
+    arr[2].x = 5;
+
+    std::cout << arr[0].x << " " << arr[0].y << " " << arr[0].genes[0] << std::endl;
+    std::cout << arr[2].x << " " << arr[2].y << " " << arr[2].genes[0] << std::endl;
 
     return returnCode;
 }
