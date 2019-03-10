@@ -32,6 +32,10 @@ struct Genome
         std::vector<bool> genes;
 
         uint32_t fitness = 0;
+
+        void mutate(const float mutationRate);
+
+        void crossover(const Genome & partner, Genome & outChild);
 };
 
 class GeneticFlappyBird : public StudiesProblem
@@ -64,7 +68,8 @@ class GeneticFlappyBird : public StudiesProblem
         void sortPopulation();
 
         /// Multithread merge sort
-        void mergesort(Genome * array, uint32_t low, uint32_t high, ThreadPool * threadPool);
+        void mergesort(Genome * array, uint32_t low, uint32_t high,
+                       ThreadPool * threadPool);
 
         void merge(Genome * array, uint32_t low, uint32_t mid, uint32_t high);
 
@@ -79,6 +84,8 @@ class GeneticFlappyBird : public StudiesProblem
         /** A 2D array whose elements are current generation's individuals.
          *  Each individual is an array of decisions**/
         Genome _population [FLAPPY_POPULATION_SIZE];
+
+        bool _solutionFound;
 };
 
 

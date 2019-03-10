@@ -30,7 +30,8 @@
 #define BIRD_FALL true
 #define BIRD_JUMP false
 
-GeneticFlappyBird::GeneticFlappyBird() : _levelFrames(0)
+GeneticFlappyBird::GeneticFlappyBird() : _levelFrames(0),
+                                         _solutionFound(false)
 {
 
 }
@@ -52,6 +53,18 @@ int32_t GeneticFlappyBird::run()
 
     initLevel(); //TODO Remove when submitting !!!
     initPopulation();
+
+    while(true)
+    {
+        calculateFitness();
+        sortPopulation();
+
+        if (_population[0].fitness == _levelFrames)
+        {
+            //solution found
+            break;
+        }
+    }
 
     return err;
 }
@@ -113,7 +126,7 @@ void GeneticFlappyBird::calculateFitness()
 {
     ThreadPool tp(THREADS_COUNT);
 
-    //enque tasks into the thread pool
+    //enqueue tasks into the thread pool
     for(uint32_t i = 0; i < FLAPPY_POPULATION_SIZE; ++i)
     {
         tp.enqueue([&] { calculateGenomeFitness(i); });
@@ -131,7 +144,8 @@ void GeneticFlappyBird::sortPopulation()
 void GeneticFlappyBird::mergesort(Genome * array, uint32_t low, uint32_t high,
                                   ThreadPool * threadPool)
 {
-    if(low < high) {
+    if(low < high)
+    {
         uint32_t middle = (low + high) / 2;
 
         // Create two sub-tasks
@@ -167,8 +181,8 @@ void GeneticFlappyBird::merge(Genome * array, uint32_t low, uint32_t mid,
         tRight[j] = array[mid + 1+ j];
 
     /* Merge the temp arrays back into arr[l..r]*/
-    i = 0; // Initial index of first subarray
-    j = 0; // Initial index of second subarray
+    i = 0;   // Initial index of first subarray
+    j = 0;   // Initial index of second subarray
     k = low; // Initial index of merged subarray
 
     while (i < L_SIZE && j < R_SIZE)
@@ -204,7 +218,6 @@ void GeneticFlappyBird::merge(Genome * array, uint32_t low, uint32_t mid,
         k++;
     }
 }
-
 
 void GeneticFlappyBird::calculateGenomeFitness(const uint32_t idx)
 {
@@ -264,6 +277,10 @@ void GeneticFlappyBird::calculateGenomeFitness(const uint32_t idx)
         {
             //death
             genome.fitness = i;
+
+            //DEBUG
+            std::cout << "BIRD DIED AT [" << birdPos.x << "," << birdPos.y
+                      << "]" << std::endl;
             return;
         }
 
@@ -271,7 +288,6 @@ void GeneticFlappyBird::calculateGenomeFitness(const uint32_t idx)
         if (checkForPylon)
         {
             //try update to next pylon
-
             ++pylonIndex;
             if (pylonIndex >= LEVEL_PYLONS_COUNT)
             {
@@ -282,6 +298,44 @@ void GeneticFlappyBird::calculateGenomeFitness(const uint32_t idx)
             pylonCheck = & _level.pylons[pylonIndex];
             pylonCheckX = pylonCheck->center.x - pylonCheck->width / 2;
             pylonCheckY = pylonCheck->center.y + pylonCheck->gapHeight / 2;
+        }
+    }
+}
+
+void Genome::mutate(const float mutationRate)
+{
+    const uint32_t GENES_SIZE = genes.size();
+
+    float r2 = (static_cast<float>(rand())) /
+               (static_cast <float>(RAND_MAX / 100.00));
+
+    for(uint32_t i = 0; i < GENES_SIZE; ++i)
+    {
+        if (r2 < mutationRate)
+        {
+            genes[i] = rand() % 2 ? BIRD_FALL : BIRD_JUMP;
+        }
+    }
+}
+
+void Genome::crossover(const Genome & partner, Genome & outChild)
+{
+    const uint32_t GENES_SIZE = partner.genes.size();
+    outChild.genes.resize(GENES_SIZE);
+
+    //pick a random midpoint
+    uint32_t midpoint = rand() % GENES_SIZE;
+
+    //half from one, half from the other
+    for(uint32_t i = 0; i < GENES_SIZE; ++i)
+    {
+        if (i < midpoint)
+        {
+            outChild.genes[i] = genes[i];
+        }
+        else
+        {
+            outChild.genes[i] = partner.genes[i];
         }
     }
 }
