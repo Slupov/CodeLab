@@ -13,6 +13,7 @@
 
 //C++ system headers
 #include <condition_variable>
+#include <functional>
 #include <thread>
 #include <vector>
 #include <queue>
@@ -39,18 +40,19 @@ class ThreadPool
         void enqueue(Task task);
 
     private:
+
+        void start(std::size_t threadsCount);
+
+        void stop();
+
+        //holds the tasks that need to be executed by the threads
+        std::queue<Task> _tasks;
+
         std::vector<std::thread> _threads;
         std::condition_variable _event;
 
         std::mutex _mutex;
         bool _stopping = false;
-
-        //holds the task that need to be executed by the threads
-        std::queue<Task> _tasks;
-
-        void start(std::size_t threadsCount);
-
-        void stop();
 };
 
 #endif //CODELAB_STUDIES_MKK_ALGORITHMS_HOMEWORK_3_THREADPOOL_H

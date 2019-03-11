@@ -17,6 +17,8 @@
 
 void ThreadPool::start(std::size_t threadsCount)
 {
+    _threads.reserve(threadsCount);
+
     for(uint32_t i = 0; i < threadsCount; ++i)
     {
         _threads.emplace_back([=] {
@@ -32,7 +34,7 @@ void ThreadPool::start(std::size_t threadsCount)
                     std::unique_lock<std::mutex> lock(_mutex);
 
                     _event.wait(lock, [=] {
-                        return _stopping || _tasks.empty();
+                        return _stopping || !_tasks.empty();
                     });
 
                     if (_stopping && _tasks.empty()) //shared state

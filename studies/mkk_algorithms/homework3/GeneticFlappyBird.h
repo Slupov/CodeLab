@@ -21,7 +21,6 @@
 #include "flappy.h"
 
 #define FLAPPY_POPULATION_SIZE 50
-#define THREADS_COUNT 15
 
 //Forward declarations
 class ThreadPool;
@@ -36,12 +35,15 @@ struct Genome
         void mutate(const float mutationRate);
 
         void crossover(const Genome & partner, Genome & outChild);
+
+        void print();
 };
 
 class GeneticFlappyBird : public StudiesProblem
 {
     public:
         GeneticFlappyBird();
+        virtual ~GeneticFlappyBird();
 
         virtual int32_t run() override;
 
@@ -68,8 +70,7 @@ class GeneticFlappyBird : public StudiesProblem
         void sortPopulation();
 
         /// Multithread merge sort
-        void mergesort(Genome * array, uint32_t low, uint32_t high,
-                       ThreadPool * threadPool);
+        void mergesort(Genome * array, uint32_t low, uint32_t high);
 
         void merge(Genome * array, uint32_t low, uint32_t mid, uint32_t high);
 
@@ -79,6 +80,8 @@ class GeneticFlappyBird : public StudiesProblem
 
         LevelDescription _level;
 
+        ThreadPool * _threadPool;
+
         uint32_t _levelFrames;
 
         /** A 2D array whose elements are current generation's individuals.
@@ -86,6 +89,8 @@ class GeneticFlappyBird : public StudiesProblem
         Genome _population [FLAPPY_POPULATION_SIZE];
 
         bool _solutionFound;
+
+        void printPopulation();
 };
 
 

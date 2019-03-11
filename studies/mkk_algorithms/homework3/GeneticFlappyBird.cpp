@@ -30,10 +30,18 @@
 #define BIRD_FALL true
 #define BIRD_JUMP false
 
+#define THREADS_COUNT 8
+
 GeneticFlappyBird::GeneticFlappyBird() : _levelFrames(0),
                                          _solutionFound(false)
 {
+    _threadPool = new ThreadPool(THREADS_COUNT);
+}
 
+GeneticFlappyBird::~GeneticFlappyBird()
+{
+    delete _threadPool;
+    _threadPool = nullptr;
 }
 
 std::vector<bool> getAgentDecisions(const LevelDescription &level)
@@ -41,10 +49,7 @@ std::vector<bool> getAgentDecisions(const LevelDescription &level)
     GeneticFlappyBird flappyBirdProblem;
     flappyBirdProblem.setLevel(level);
 
-    if(EXIT_SUCCESS == flappyBirdProblem.run())
-    {
-        return flappyBirdProblem.getSolution();
-    }
+    return flappyBirdProblem.getSolution();
 }
 
 int32_t GeneticFlappyBird::run()
@@ -57,7 +62,8 @@ int32_t GeneticFlappyBird::run()
     while(true)
     {
         calculateFitness();
-        sortPopulation();
+//        sortPopulation();
+        printPopulation();
 
         if (_population[0].fitness == _levelFrames)
         {
@@ -116,7 +122,7 @@ void GeneticFlappyBird::initLevel()
         randNum = randGen() % (MAX_PIPE_WIDTH - MIN_PIPE_WIDTH);
         _level.pylons[i].width = MIN_PIPE_WIDTH + randNum;
 
-        printf("Pipe[%u]: w: %.5f h: %.5f center.x: %.5f center.y: %.5f \n", i,
+        printf("Pipe[%2u]: w: %.5f h: %.5f center.x: %.5f center.y: %.5f \n", i,
                 _level.pylons[i].width, _level.pylons[i].gapHeight,
                 _level.pylons[i].center.x, _level.pylons[i].center.y);
     }
@@ -124,36 +130,31 @@ void GeneticFlappyBird::initLevel()
 
 void GeneticFlappyBird::calculateFitness()
 {
-    ThreadPool tp(THREADS_COUNT);
-
     //enqueue tasks into the thread pool
     for(uint32_t i = 0; i < FLAPPY_POPULATION_SIZE; ++i)
     {
-        tp.enqueue([&] { calculateGenomeFitness(i); });
+        _threadPool->enqueue([&] { calculateGenomeFitness(i); });
     }
 }
 
 void GeneticFlappyBird::sortPopulation()
 {
-    ThreadPool tp(THREADS_COUNT);
-
     //do work
-    mergesort(_population, 0, FLAPPY_POPULATION_SIZE - 1, &tp);
+    mergesort(_population, 0, FLAPPY_POPULATION_SIZE - 1);
 }
 
-void GeneticFlappyBird::mergesort(Genome * array, uint32_t low, uint32_t high,
-                                  ThreadPool * threadPool)
+void GeneticFlappyBird::mergesort(Genome * array, uint32_t low, uint32_t high)
 {
     if(low < high)
     {
         uint32_t middle = (low + high) / 2;
 
         // Create two sub-tasks
-        threadPool->enqueue([&] {
-            mergesort(array, low, middle, threadPool); });
+        _threadPool->enqueue([&] {
+            mergesort(array, low, middle); });
 
-        threadPool->enqueue([&] {
-            mergesort(array, middle + 1, high, threadPool); });
+        _threadPool->enqueue([&] {
+            mergesort(array, middle + 1, high); });
 
         merge(array, low, middle, high);
     }
@@ -178,7 +179,7 @@ void GeneticFlappyBird::merge(Genome * array, uint32_t low, uint32_t mid,
         tLeft[i] = array[low + i];
 
     for (j = 0; j < R_SIZE; j++)
-        tRight[j] = array[mid + 1+ j];
+        tRight[j] = array[mid + 1 + j];
 
     /* Merge the temp arrays back into arr[l..r]*/
     i = 0;   // Initial index of first subarray
@@ -278,9 +279,6 @@ void GeneticFlappyBird::calculateGenomeFitness(const uint32_t idx)
             //death
             genome.fitness = i;
 
-            //DEBUG
-            std::cout << "BIRD DIED AT [" << birdPos.x << "," << birdPos.y
-                      << "]" << std::endl;
             return;
         }
 
@@ -302,6 +300,16 @@ void GeneticFlappyBird::calculateGenomeFitness(const uint32_t idx)
     }
 }
 
+void GeneticFlappyBird::printPopulation()
+{
+    for(uint32_t i = 0; i < FLAPPY_POPULATION_SIZE; ++i)
+    {
+        printf("Genome[%02u]: ", i);
+        _population[i].print();
+        printf("\n");
+    }
+}
+
 void Genome::mutate(const float mutationRate)
 {
     const uint32_t GENES_SIZE = genes.size();
@@ -320,7 +328,9 @@ void Genome::mutate(const float mutationRate)
 
 void Genome::crossover(const Genome & partner, Genome & outChild)
 {
-    const uint32_t GENES_SIZE = partner.genes.size();
+    const uint32_t GENES_SIZE =
+            static_cast<const uint32_t>(partner.genes.size());
+
     outChild.genes.resize(GENES_SIZE);
 
     //pick a random midpoint
@@ -337,5 +347,13 @@ void Genome::crossover(const Genome & partner, Genome & outChild)
         {
             outChild.genes[i] = partner.genes[i];
         }
+    }
+}
+
+void Genome::print()
+{
+    for (const bool & gene: genes)
+    {
+        printf("%d", gene);
     }
 }
