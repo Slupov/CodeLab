@@ -18,9 +18,9 @@
 //Own components headers
 #include "ThreadPool.h"
 
-#define LEVEL_W 100
+#define LEVEL_W 10
 #define LEVEL_H 50
-#define LEVEL_PYLONS 15
+#define LEVEL_PYLONS 1
 
 #define MAX_PIPE_X_OFFSET 10
 #define MAX_PIPE_GAP_HEIGHT 20
@@ -30,18 +30,24 @@
 #define BIRD_FALL true
 #define BIRD_JUMP false
 
+#define MUTATION_RATE 0.1
+
 #define THREADS_COUNT 8
 
 GeneticFlappyBird::GeneticFlappyBird() : _levelFrames(0),
                                          _solutionFound(false)
 {
+#if MULTITHREADING_FLAPPY
     _threadPool = new ThreadPool(THREADS_COUNT);
+#endif
 }
 
 GeneticFlappyBird::~GeneticFlappyBird()
 {
+#if MULTITHREADING_FLAPPY
     delete _threadPool;
     _threadPool = nullptr;
+#endif
 }
 
 std::vector<bool> getAgentDecisions(const LevelDescription &level)
@@ -56,13 +62,17 @@ int32_t GeneticFlappyBird::run()
 {
     int32_t err = EXIT_SUCCESS;
 
+    srand((uint32_t) std::time(nullptr));
+
     initLevel(); //TODO Remove when submitting !!!
     initPopulation();
 
     while(true)
     {
         calculateFitness();
-//        sortPopulation();
+        sortPopulation();
+        breedPopulation();
+
         printPopulation();
 
         if (_population[0].fitness == _levelFrames)
@@ -79,7 +89,6 @@ void GeneticFlappyBird::initPopulation()
 {
     _levelFrames = static_cast<uint32_t >(_level.length / HORIZONTAL_VELOCITY);
 
-    srand((uint32_t) std::time(nullptr));
 
     for(uint32_t i = 0; i < FLAPPY_POPULATION_SIZE; ++i)
     {
@@ -107,20 +116,25 @@ void GeneticFlappyBird::initLevel()
     float currentPipeX = 0;
     float randNum = 0;
 
+    _level.pylons[0].gapHeight = 2.2f;
+    _level.pylons[0].width = 2.2f;
+    _level.pylons[0].center.x = 3.0f;
+    _level.pylons[0].center.y = 3.0f;
+
     //generate random pylons
     for(uint32_t i = 0; i < LEVEL_PYLONS; ++i)
     {
-        randNum = randGen() % (MAX_PIPE_X_OFFSET + 1);
-        _level.pylons[i].center.x = currentPipeX + randNum;
-
-        randNum = randGen() % (LEVEL_H + 1);
-        _level.pylons[i].center.y = randNum;
-
-        randNum = randGen() % (MAX_PIPE_GAP_HEIGHT + 1);
-        _level.pylons[i].gapHeight = 1 + randNum;
-
-        randNum = randGen() % (MAX_PIPE_WIDTH - MIN_PIPE_WIDTH);
-        _level.pylons[i].width = MIN_PIPE_WIDTH + randNum;
+//        randNum = randGen() % (MAX_PIPE_X_OFFSET + 1);
+//        _level.pylons[i].center.x = currentPipeX + randNum;
+//
+//        randNum = randGen() % (LEVEL_H + 1);
+//        _level.pylons[i].center.y = randNum;
+//
+//        randNum = randGen() % (MAX_PIPE_GAP_HEIGHT + 1);
+//        _level.pylons[i].gapHeight = 1 + randNum;
+//
+//        randNum = randGen() % (MAX_PIPE_WIDTH - MIN_PIPE_WIDTH);
+//        _level.pylons[i].width = MIN_PIPE_WIDTH + randNum;
 
         printf("Pipe[%2u]: w: %.5f h: %.5f center.x: %.5f center.y: %.5f \n", i,
                 _level.pylons[i].width, _level.pylons[i].gapHeight,
@@ -133,7 +147,11 @@ void GeneticFlappyBird::calculateFitness()
     //enqueue tasks into the thread pool
     for(uint32_t i = 0; i < FLAPPY_POPULATION_SIZE; ++i)
     {
+#if MULTITHREADING_FLAPPY
         _threadPool->enqueue([&] { calculateGenomeFitness(i); });
+#else
+        calculateGenomeFitness(i);
+#endif
     }
 }
 
@@ -149,13 +167,17 @@ void GeneticFlappyBird::mergesort(Genome * array, uint32_t low, uint32_t high)
     {
         uint32_t middle = (low + high) / 2;
 
+#if MULTITHREADING_FLAPPY
         // Create two sub-tasks
         _threadPool->enqueue([&] {
             mergesort(array, low, middle); });
 
         _threadPool->enqueue([&] {
             mergesort(array, middle + 1, high); });
-
+#else
+        mergesort(array, low, middle);
+        mergesort(array, middle + 1, high);
+#endif
         merge(array, low, middle, high);
     }
 }
@@ -164,7 +186,7 @@ void GeneticFlappyBird::merge(Genome * array, uint32_t low, uint32_t mid,
                               uint32_t high)
 {
     const uint32_t L_SIZE = mid - low + 1;
-    const uint32_t R_SIZE = high - mid + 1;
+    const uint32_t R_SIZE = high - mid;
 
     //yea, i know i takes more space
     std::vector<Genome> tLeft(L_SIZE);
@@ -310,6 +332,17 @@ void GeneticFlappyBird::printPopulation()
     }
 }
 
+void GeneticFlappyBird::breedPopulation()
+{
+    //breed first half (best) of population with second (worst)
+    for(uint32_t i = 0; i < FLAPPY_POPULATION_SIZE / 2; ++i)
+    {
+        _population[FLAPPY_POPULATION_SIZE - 1 - i].crossover(_population[i]);
+        _population[FLAPPY_POPULATION_SIZE - 1 - i].mutate(MUTATION_RATE);
+        _population[i].mutate(MUTATION_RATE);
+    }
+}
+
 void Genome::mutate(const float mutationRate)
 {
     const uint32_t GENES_SIZE = genes.size();
@@ -326,12 +359,10 @@ void Genome::mutate(const float mutationRate)
     }
 }
 
-void Genome::crossover(const Genome & partner, Genome & outChild)
+void Genome::crossover(const Genome & partner)
 {
     const uint32_t GENES_SIZE =
             static_cast<const uint32_t>(partner.genes.size());
-
-    outChild.genes.resize(GENES_SIZE);
 
     //pick a random midpoint
     uint32_t midpoint = rand() % GENES_SIZE;
@@ -341,11 +372,7 @@ void Genome::crossover(const Genome & partner, Genome & outChild)
     {
         if (i < midpoint)
         {
-            outChild.genes[i] = genes[i];
-        }
-        else
-        {
-            outChild.genes[i] = partner.genes[i];
+            genes[i] = partner.genes[i];
         }
     }
 }
