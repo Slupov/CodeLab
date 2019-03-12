@@ -10,7 +10,6 @@
 //C system headers
 
 //C++ system headers
-#include <random>
 #include <ctime>
 
 //Other libraries headers
@@ -27,10 +26,10 @@
 #define MAX_PIPE_WIDTH 10
 #define MIN_PIPE_WIDTH 1
 
-#define BIRD_FALL true
-#define BIRD_JUMP false
+#define BIRD_FALL false
+#define BIRD_JUMP true
 
-#define MUTATION_RATE 0.1
+#define MUTATION_RATE 35.5
 
 #define THREADS_COUNT 8
 
@@ -54,6 +53,7 @@ std::vector<bool> getAgentDecisions(const LevelDescription &level)
 {
     GeneticFlappyBird flappyBirdProblem;
     flappyBirdProblem.setLevel(level);
+    flappyBirdProblem.run();
 
     return flappyBirdProblem.getSolution();
 }
@@ -62,10 +62,11 @@ int32_t GeneticFlappyBird::run()
 {
     int32_t err = EXIT_SUCCESS;
 
-    srand((uint32_t) std::time(nullptr));
+    _randGen.seed((uint32_t) std::time(nullptr));
 
-    initLevel(); //TODO Remove when submitting !!!
+//    initLevel(); //TODO Remove when submitting !!!
     initPopulation();
+    printPopulation();
 
     while(true)
     {
@@ -75,9 +76,14 @@ int32_t GeneticFlappyBird::run()
 
         printPopulation();
 
-        if (_population[0].fitness == _levelFrames)
+        //last frame is a "wall"
+        if (_population[0].fitness == _levelFrames - 1)
         {
             //solution found
+            std::cout << "SOLUTION FOUND -> ";
+            _population[0].print();
+            std::cout << std::endl;
+
             break;
         }
     }
@@ -87,8 +93,8 @@ int32_t GeneticFlappyBird::run()
 
 void GeneticFlappyBird::initPopulation()
 {
+    std::mt19937 randGen((uint32_t) std::time(nullptr));
     _levelFrames = static_cast<uint32_t >(_level.length / HORIZONTAL_VELOCITY);
-
 
     for(uint32_t i = 0; i < FLAPPY_POPULATION_SIZE; ++i)
     {
@@ -96,7 +102,7 @@ void GeneticFlappyBird::initPopulation()
 
         for(uint32_t j = 0; j < _levelFrames; ++j)
         {
-            _population[i].genes[i] = rand() % 2 ? BIRD_FALL : BIRD_JUMP;
+            _population[i].genes[j] = randGen() % 2 ? BIRD_FALL : BIRD_JUMP;
         }
     }
 }
@@ -111,7 +117,7 @@ void GeneticFlappyBird::initLevel()
     _level.pylons.resize(LEVEL_PYLONS);
 
 //    std::mt19937 randGen((uint32_t) std::time(nullptr));
-    std::mt19937 randGen(5);
+//    std::mt19937 randGen(5);
 
     float currentPipeX = 0;
     float randNum = 0;
@@ -210,7 +216,7 @@ void GeneticFlappyBird::merge(Genome * array, uint32_t low, uint32_t mid,
 
     while (i < L_SIZE && j < R_SIZE)
     {
-        if (tLeft[i].fitness <= tRight[j].fitness)
+        if (tLeft[i].fitness >= tRight[j].fitness)
         {
             array[k] = tLeft[i];
             i++;
@@ -244,7 +250,8 @@ void GeneticFlappyBird::merge(Genome * array, uint32_t low, uint32_t mid,
 
 void GeneticFlappyBird::calculateGenomeFitness(const uint32_t idx)
 {
-    const uint32_t LEVEL_PYLONS_COUNT = _level.pylons.size();
+    const uint32_t LEVEL_PYLONS_COUNT =
+            static_cast<const uint32_t>(_level.pylons.size());
     bool checkForPylon = LEVEL_PYLONS_COUNT != 0;
 
     Genome & genome = _population[idx];
@@ -324,9 +331,11 @@ void GeneticFlappyBird::calculateGenomeFitness(const uint32_t idx)
 
 void GeneticFlappyBird::printPopulation()
 {
+    printf("-------------------------------------------------------------\n");
     for(uint32_t i = 0; i < FLAPPY_POPULATION_SIZE; ++i)
     {
-        printf("Genome[%02u]: ", i);
+        printf("Genome[%02u] = FIT: %u/%u | ", i, _population[i].fitness,
+                                              _levelFrames);
         _population[i].print();
         printf("\n");
     }
@@ -339,22 +348,25 @@ void GeneticFlappyBird::breedPopulation()
     {
         _population[FLAPPY_POPULATION_SIZE - 1 - i].crossover(_population[i]);
         _population[FLAPPY_POPULATION_SIZE - 1 - i].mutate(MUTATION_RATE);
-        _population[i].mutate(MUTATION_RATE);
     }
 }
 
 void Genome::mutate(const float mutationRate)
 {
+    std::mt19937 randGen((uint32_t) std::time(nullptr));
+
     const uint32_t GENES_SIZE = genes.size();
 
-    float r2 = (static_cast<float>(rand())) /
-               (static_cast <float>(RAND_MAX / 100.00));
+    std::uniform_real_distribution<float> uni(0.0, 100.0);
 
-    for(uint32_t i = 0; i < GENES_SIZE; ++i)
+    float r2 = uni(randGen);
+
+    //optimization mutate bad genes only
+    for(uint32_t i = fitness; i < GENES_SIZE; ++i)
     {
         if (r2 < mutationRate)
         {
-            genes[i] = rand() % 2 ? BIRD_FALL : BIRD_JUMP;
+            genes[i] = randGen() % 2 ? BIRD_FALL : BIRD_JUMP;
         }
     }
 }

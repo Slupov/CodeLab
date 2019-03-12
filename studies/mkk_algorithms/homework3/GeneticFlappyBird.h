@@ -13,6 +13,7 @@
 
 //C++ system headers
 #include <vector>
+#include <random>
 
 //Other libraries headers
 
@@ -92,6 +93,8 @@ class GeneticFlappyBird : public StudiesProblem
         /** A 2D array whose elements are current generation's individuals.
          *  Each individual is an array of decisions**/
         Genome _population [FLAPPY_POPULATION_SIZE];
+
+        std::mt19937 _randGen;
 
         bool _solutionFound;
 
