@@ -13,11 +13,11 @@
 //Other libraries headers
 
 //Own components headers
-#include <studies/mkk_algorithms/homework2/AllSumsOfANumber.h>
-#include <studies/mkk_algorithms/homework2/AllSumsOfANumberRestricted.h>
-#include <studies/mkk_algorithms/homework1/DecodeStringBonus.h>
-#include <studies/mkk_algorithms/homework3/GeneticFlappyBird.h>
-#include <studies/mkk_algorithms/final_exam/RPGGame.h>
+#include "studies/mkk_algorithms/homework2/AllSumsOfANumber.h"
+#include "studies/mkk_algorithms/homework2/AllSumsOfANumberRestricted.h"
+#include "studies/mkk_algorithms/homework1/DecodeStringBonus.h"
+#include "studies/mkk_algorithms/homework3/GeneticFlappyBird.h"
+#include "studies/mkk_algorithms/final_exam/RPGGame.h"
 #include "studies/mkk_algorithms/homework1/LargeFloatProblem.h"
 #include "studies/mkk_algorithms/homework1/IntegratingFunction.h"
 #include "studies/algorithms/PhoneBills.h"
