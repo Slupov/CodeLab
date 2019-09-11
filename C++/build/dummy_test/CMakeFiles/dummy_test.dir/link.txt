@@ -1,1 +1,0 @@
-/usr/bin/c++    -std=c++14 -Wall -Wextra -Wfloat-equal -Wundef -Wuninitialized -Wreorder -Wshadow -Wpointer-arith -Wcast-align -Wcast-qual -Wconversion -Wunused-parameter -fPIC -g   CMakeFiles/dummy_test.dir/main.cpp.o  -o dummy_test 
