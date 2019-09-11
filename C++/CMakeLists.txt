@@ -44,7 +44,7 @@ file(GLOB _SOURCES
 set(ARRAYS_LIB arrays)
 project(${ARRAYS_LIB})
 
-#define data generator library project
+#define studies project
 set(STUDIES_LIB studies)
 project(${STUDIES_LIB})
 
@@ -56,9 +56,13 @@ project(${DATA_GENERATOR_LIB})
 set(DATA_GENERATOR datagenerator)
 project(${DATA_GENERATOR})
 
-#define data generator project
+#define dummy test project
 set(TEST dummy_test)
 project(${TEST})
+
+#define asap cpp advanced project
+set(ASAP_CPP_ADVANCED asapcppadvanced)
+project(${ASAP_CPP_ADVANCED})
 
 #reuse project flags and start other cmake files
 add_subdirectory(${PROJECT_ROOT_DIR}/studies)
@@ -67,3 +71,4 @@ add_subdirectory(${PROJECT_ROOT_DIR}/tools/datagenerator)
 add_subdirectory(${PROJECT_ROOT_DIR}/arrays)
 add_subdirectory(${PROJECT_ROOT_DIR}/engine)
 add_subdirectory(${PROJECT_ROOT_DIR}/dummy_test)
+add_subdirectory(${PROJECT_ROOT_DIR}/asapcppadvanced)

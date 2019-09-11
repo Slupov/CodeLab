@@ -5,6 +5,7 @@
  */
 
 //Corresponding header
+#include "StudiesProblem.h"
 
 //C system headers
 
@@ -14,4 +15,3 @@
 
 //Own components headers
 
-#include "StudiesProblem.h"

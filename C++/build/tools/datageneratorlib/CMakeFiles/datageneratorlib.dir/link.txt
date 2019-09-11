@@ -1,0 +1,2 @@
+/usr/bin/ar qc libdatageneratorlib.a  CMakeFiles/datageneratorlib.dir/DataGenerator.cpp.o
+/usr/bin/ranlib libdatageneratorlib.a
