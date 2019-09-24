@@ -7,7 +7,7 @@ import java.util.Scanner;
  **/
 public class AddDigits {
     public static void main(String[] args) {
-        addDigits(new Scanner(System.in).nextInt());
+        System.out.println(addDigits(new Scanner(System.in).nextInt()));
     }
 
     //Find digital root by formula (https://en.wikipedia.org/wiki/Digital_root)
